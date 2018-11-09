@@ -1,3 +1,6 @@
+#ifndef MAP_H
+#define MAP_H
+
 enum floor_type
 {
     DIRT = 0;
@@ -19,3 +22,5 @@ struct block
 
 struct map *create_map(char *path);
 void free_map(struct map *my_map);
+
+#endif /* !MAP_H */
