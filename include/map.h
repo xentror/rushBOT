@@ -16,3 +16,6 @@ struct block
 {
     enum floor_type type;
 };
+
+struct map *create_map(char *path);
+void free_map(struct map *my_map);
