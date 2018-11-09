@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "map.h"
+
 struct map *create_map(char *path)
 {
     FILE *file = fopen(path, "r");
@@ -18,9 +20,9 @@ struct map *create_map(char *path)
 
 void free_map(struct map *my_map)
 {
-    for (int i = 0; i < my_map->height; i++)
+    for (size_t i = 0; i < my_map->height; i++)
     {
-        for (int j = 0; j < my_map->width; j++)
+        for (size_t j = 0; j < my_map->width; j++)
             free(my_map->table[i][j]);
         free(my_map->table[i]);
     }
@@ -30,10 +32,10 @@ void free_map(struct map *my_map)
 
 void print_map (struct map *my_map)
 {
-    for (int i = 0; i < my_map->height; i++)
+    for (size_t i = 0; i < my_map->height; i++)
     {
-        for (int j = 0; j < my_map->width; j++)
-            printf("%d", my_map->table[i][j]);
+        for (size_t j = 0; j < my_map->width; j++)
+            printf("%d", my_map->table[i][j]->type);
         printf("\n");
     }
 }

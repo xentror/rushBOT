@@ -1,11 +1,13 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <stddef.h>
+
 enum floor_type
 {
-    DIRT = 0;
-    LAVA = 1;
-    BLOCK = 2;
+    DIRT = 0,
+    LAVA = 1,
+    BLOCK = 2
 };
 
 struct map
