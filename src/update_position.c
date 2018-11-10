@@ -79,10 +79,15 @@ static void update_bullets_position(struct GameContext *GC)
         }
         else
         {
-            rebound_bullet(GC->bullets[i]);
             if (GC->bullets[i]->nb_rebounds > 3)
+            {
                 destroy_bullet(GC, i);
-            GC->bullets[i]->nb_rebounds += 1;
+            }
+            else
+            {
+                rebound_bullet(GC->bullets[i]);
+                GC->bullets[i]->nb_rebounds += 1;
+            }
         }
     }
 }
@@ -94,8 +99,8 @@ static void update_AI_position(struct GameContext *GC)
         if (!touch_the_wall(GC->map, GC->enemies[i]->position) &&
             !in_the_lava(GC->map, GC->enemies[i]->position))
         {
-            GC->enemies[i]->position->x += 0.08 * GC->enemies[i]->direction->x;
-            GC->enemies[i]->position->y += 0.08 * GC->enemies[i]->direction->y;
+            GC->enemies[i]->position->x += GC->enemies[i]->direction->x;
+            GC->enemies[i]->position->y += GC->enemies[i]->direction->y;
         }
     }
 }
