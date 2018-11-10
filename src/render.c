@@ -63,11 +63,3 @@ int render_map(struct map *map)
     SDL_Quit();
     return 0;
 }
-
-int main(void)
-{
-    struct map *m = create_map("./maps/map1");
-    render_map(m);
-    free_map(m);
-    return 0;
-}
