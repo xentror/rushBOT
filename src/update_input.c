@@ -49,7 +49,7 @@ static struct bullet *create_bullet(struct tank *tank)
     B->direction->x = tank->direction->x;
     B->direction->y = tank->direction->y;
     B->damage = 10;
-    B->speed = 0.01;
+    B->speed = 0.05;
     B->type = ENORMOUS;
     B->nb_rebounds = 0;
     B->to_destroy = 0;

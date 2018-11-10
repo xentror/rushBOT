@@ -70,9 +70,13 @@ void render_map(struct map *map, SDL_Renderer *renderer)
 void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
 {
     int w, h;
-    SDL_Texture *tank_texture = IMG_LoadTexture(renderer,
-            "./textures/tank.png");
-    SDL_QueryTexture(tank_texture, NULL, NULL, &w, &h);
+    SDL_Texture *tank_g_texture = IMG_LoadTexture(renderer,
+            "./textures/tank-g.png");
+    SDL_Texture *tank_r_texture = IMG_LoadTexture(renderer,
+            "./textures/tank-r.png");
+    SDL_Texture *tank_b_texture = IMG_LoadTexture(renderer,
+            "./textures/tank-b.png");
+    SDL_QueryTexture(tank_r_texture, NULL, NULL, &w, &h);
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
     textr.w = w / SCALE;
@@ -82,13 +86,13 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
     angle = angle * (180 / M_PI1);
     textr.x = GC->player1->position->x * w / SCALE;
     textr.y = GC->player1->position->y * h / SCALE;
-    SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
+    SDL_RenderCopyEx(renderer, tank_b_texture, NULL, &textr, angle, NULL, flip);
 
     angle = atan2(GC->player2->direction->x, GC->player2->direction->y);
     angle = angle * (180 / M_PI1);
     textr.x = GC->player2->position->x * w / SCALE;
     textr.y = GC->player2->position->y * h / SCALE;
-    SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
+    SDL_RenderCopyEx(renderer, tank_r_texture, NULL, &textr, angle, NULL, flip);
 
     for (int i = 0; i < GC->nb_enemies; i++)
     {
@@ -97,10 +101,12 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
         angle = angle * (180 / M_PI1);
         textr.x = GC->enemies[i]->position->x * w / SCALE;
         textr.y = GC->enemies[i]->position->y * h / SCALE;
-        SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle,
+        SDL_RenderCopyEx(renderer, tank_g_texture, NULL, &textr, angle,
                 NULL, flip);
     }
-    SDL_DestroyTexture(tank_texture);
+    SDL_DestroyTexture(tank_g_texture);
+    SDL_DestroyTexture(tank_b_texture);
+    SDL_DestroyTexture(tank_r_texture);
 }
 
 void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
