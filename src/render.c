@@ -29,7 +29,7 @@ SDL_Window *window_init(struct map *map)
     return window;
 }
 
-int render_map(struct map *map, SDL_Window *window)
+SDL_Renderer *render_map(struct map *map, SDL_Window *window)
 {
     SDL_Renderer *renderer;
     renderer = SDL_CreateRenderer(window, -1, 0);
@@ -64,10 +64,10 @@ int render_map(struct map *map, SDL_Window *window)
         b += h / 4;
     }
     SDL_RenderPresent(renderer);
-    return 0;
+    return renderer;
 }
 
-void render_tanks(struct GameContext *GC, SDL_Window *window)
+void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
 {
     SDL_Texture *player1_texture = IMG_LoadTexture(renderer, "./textures/tank.jpg");
     SDL_Texture *player2_texture = IMG_LoadTexture(renderer, "./textures/tank.jpg");
@@ -79,7 +79,7 @@ void render_tanks(struct GameContext *GC, SDL_Window *window)
     }
 }
 
-void render_bullets(struct GameContext *GC, SDL_Window *window)
+void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
 {
     SDL_Texture *bullet_texture = IMG_LoadTexture(renderer, "./textures/bullet.png");
 

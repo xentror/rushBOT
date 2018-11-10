@@ -14,16 +14,14 @@ int main(int argc, char *argv[])
         errx(1, "Please enter path for map like: ./toto <path>");
     gameInit(&game, argv[1]);
     SDL_Window *window = window_init(game.map);
-    render_map(game.map, window);
+    SDL_Renderer *renderer = render_map(game.map, window);
     while (game.isPlaying)
     {
         enum event event = get_input();
         update(&game, event);
 
-        render_map(game.map, window);
-        render_tanks(&game, window);
-        render_bullets(&game, window);
-        
+        render_tanks(&game, renderer);
+        render_bullets(&game, renderer);
         printf("running tamerelapute\n");
     }
     free_game(&game);
