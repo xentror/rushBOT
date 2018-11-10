@@ -1,18 +1,22 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
+#include "render.h"
+#include "map.h"
 
-int main(void)
+int render_map(struct map *map)
 {
     SDL_Window *window;
     SDL_Renderer *renderer;
 
+    int W = map->width * TEXTURE_W / 4;
+    int H = map->height * TEXTURE_H / 4;
     SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow("TANK BATTLE !!!!",
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
-            1024,
-            720,
+            W,
+            H,
             SDL_WINDOW_OPENGL);
     
     if (window == NULL) 
@@ -22,25 +26,48 @@ int main(void)
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
-    //SDL_SetRenderDrawColor(renderer,159, 87, 43, 255);
-    //SDL_RenderClear(renderer);
-    //SDL_RenderPresent(renderer);
 
     int w, h;
-    SDL_Texture *img = IMG_LoadTexture(renderer, "./textures/ground.png");
-    SDL_QueryTexture(img, NULL, NULL, &w, &h);
+    SDL_Texture *block = IMG_LoadTexture(renderer, "./textures/block.jpg");
+    SDL_Texture *dirt = IMG_LoadTexture(renderer, "./textures/dirt.jpg");
+    SDL_Texture *lava = IMG_LoadTexture(renderer, "./textures/lava.png");
+    SDL_QueryTexture(dirt, NULL, NULL, &w, &h);
     SDL_Rect textr;
-    textr.x = 0;
-    textr.y = 0;
-    textr.w = w / 2;
-    textr.h = h / 2;
+    textr.w = w / 4;
+    textr.h = h / 4;
 
     SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, img, NULL, &textr);
+    int a = 0;
+    int b = 0;
+    for (size_t i = 0; i < map->height; i++)
+    {
+        a = 0;
+        for (size_t j = 0; j < map->width; j++)
+        {
+            textr.x = a;
+            textr.y = b;
+            if (map->table[i][j]->type == DIRT)
+                SDL_RenderCopy(renderer, dirt, NULL, &textr);
+            if (map->table[i][j]->type == LAVA)
+                SDL_RenderCopy(renderer, lava, NULL, &textr);
+            if (map->table[i][j]->type == BLOCK)
+                SDL_RenderCopy(renderer, block, NULL, &textr);
+            a += w / 4;
+        } 
+        b += h / 4;
+    }
     SDL_RenderPresent(renderer);
 
-    SDL_Delay(3000);
+    SDL_Delay(30000);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    return 0;
+}
+
+int main(void)
+{
+    struct map *m = create_map("./maps/map1");
+    render_map(m);
+    free_map(m);
     return 0;
 }
