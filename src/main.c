@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
         // update frame
         printf("tamerelapute\n");
     }
+    free_game();
     SDL_Delay(30000);
     SDL_DestroyWindow(window);
     SDL_Quit();

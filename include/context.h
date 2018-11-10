@@ -48,5 +48,6 @@ struct GameContext
 };
 
 void gameInit(struct GameContext *game, char *arg);
+void free_game(struct GameContext *GC);
 
 #endif /* !CONTEXT_H */
