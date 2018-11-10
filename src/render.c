@@ -33,7 +33,7 @@ SDL_Window *window_init(struct map *map)
 void render_map(struct map *map, SDL_Renderer *renderer)
 {
     int w, h;
-    SDL_Texture *block = IMG_LoadTexture(renderer, "./textures/block.jpg");
+    SDL_Texture *block = IMG_LoadTexture(renderer, "./textures/wood_block.jpg");
     SDL_Texture *dirt = IMG_LoadTexture(renderer, "./textures/dirt.jpg");
     SDL_Texture *lava = IMG_LoadTexture(renderer, "./textures/lava.png");
     SDL_QueryTexture(dirt, NULL, NULL, &w, &h);
@@ -61,6 +61,9 @@ void render_map(struct map *map, SDL_Renderer *renderer)
         }
         b += h / 4;
     }
+    SDL_DestroyTexture(block);
+    SDL_DestroyTexture(dirt);
+    SDL_DestroyTexture(lava);
 }
 
 void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
@@ -92,6 +95,7 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
         textr.y = GC->enemies[i]->position->y * h / 4;
         SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
     }
+    SDL_DestroyTexture(tank_texture);
 }
 
 void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
