@@ -25,11 +25,7 @@ void destroy_bullet(struct GameContext *GC, int i)
 {
     for (int j = i; j < GC->nb_bullets - 1; j++)
         GC->bullets[i] = GC->bullets[i + 1];
-
-    free(GC->bullets[GC->nb_bullets - 1]->position);
-    free(GC->bullets[GC->nb_bullets - 1]->direction);
     free(GC->bullets[GC->nb_bullets - 1]);
-    
     GC->nb_bullets -= 1;
     GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
 }

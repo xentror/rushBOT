@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "context.h"
 #include "update.h"
@@ -61,20 +62,11 @@ static struct bullet *create_bullet(struct tank *tank)
     return B;
 }
 
-static void free_bullet(struct bullet *B)
-{
-    if (B == NULL)
-        return;
-    free(B->position);
-    free(B->direction);
-    free(B);
-}
-
-
 void shot(struct GameContext *GC, struct tank *tank)
 {
     if (tank->is_shoting)
     {
+        printf("shot !\n");
         GC->bullets = realloc(GC->bullets, sizeof(struct bullet *)
                 * GC->nb_bullets + 1);
         GC->bullets[GC->nb_bullets] = create_bullet(tank);
