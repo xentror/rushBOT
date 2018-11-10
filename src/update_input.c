@@ -42,6 +42,7 @@ static struct bullet *create_bullet(struct tank *tank)
     B->damage = 10;
     B->speed = 3;
     B->type = ENORMOUS;
+    B->nb_rebounds = 0;
 
     return B;
 }
