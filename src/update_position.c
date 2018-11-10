@@ -16,6 +16,20 @@ static int touch_the_wall(struct map *M, struct vector2 *position)
     return get_floor(M, position->x, position->y) == BLOCK;
 }
 
+static int in_the_lava(struct map *M, struct vector2 *position)
+{
+    return get_floor(M, position->x, position->y) == LAVA;
+}
+
+void destroy_bullet(struct GameContext *GC, int i)
+{
+    for (int j = i; j < GC->nb_bullets - 1; j++)
+        GC->bullets[i] = GC->bullets[i + 1];
+    free(GC->bullets[GC->nb_bullets - 1]);
+    GC->nb_bullets -= 1;
+    GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
+}
+
 static void update_bullets_position(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_bullets; i++)
@@ -27,11 +41,9 @@ static void update_bullets_position(struct GameContext *GC)
         }
         else
         {
-            for (int j = i; j < GC->nb_bullets - 1; j++)
-                GC->bullets[i] = GC->bullets[i + 1];
-            free(GC->bullets[GC->nb_bullets - 1]);
-            GC->nb_bullets -= 1;
-            GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
+            if (GC->bullets[i]->nb_rebounds > 3)
+                destroy_bullet(GC, i);
+            GC->bullets[i]->nb_rebounds += 1;
         }
     }
 }
@@ -40,7 +52,8 @@ static void update_AI_position(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_enemies; i++)
     {
-        if (!touch_the_wall(GC->map, GC->enemies[i]->position))
+        if (!touch_the_wall(GC->map, GC->enemies[i]->position) &&
+            !in_the_lava(GC->map, GC->enemies[i]->position))
         {
             GC->enemies[i]->position->x += GC->enemies[i]->direction->x;
             GC->enemies[i]->position->y += GC->enemies[i]->direction->y;

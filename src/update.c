@@ -12,6 +12,13 @@ static void update_AI_behaviour(struct GameContext *GC)
             shot(GC, GC->enemies[i]);
         }
     }
+
+    for (int i = 0; i < GC->nb_bullets; i++)
+    {
+        struct bullet *B = GC->enemies[i];
+        B->position->x += B->direction->x * speed;
+        B->position->y += B->direction->y * speed;
+    }
 }
 
 void update(struct GameContext *GC)

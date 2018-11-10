@@ -45,6 +45,7 @@ struct bullet
     int damage;
     int speed;
     enum bulletType type;
+    int nb_rebounds;
 };
 
 struct GameContext
