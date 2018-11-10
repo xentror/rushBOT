@@ -95,7 +95,7 @@ static void update_bullets_position(struct GameContext *GC)
             else
             {
                 printf("rebondis \n");
-                rebound_bullet(GC->bullets[i]);
+                //rebound_bullet(GC->bullets[i]);
                 GC->bullets[i]->nb_rebounds += 1;
             }
         }

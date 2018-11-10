@@ -75,8 +75,8 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
     SDL_QueryTexture(tank_texture, NULL, NULL, &w, &h);
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
-    textr.w = w / 2;
-    textr.h = h / 2;
+    textr.w = w / 4;
+    textr.h = h / 4;
 
     double angle = atan2(GC->player1->direction->x, GC->player1->direction->y);
     angle = angle * (180 / M_PI1);
@@ -111,16 +111,16 @@ void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
     SDL_QueryTexture(bullet_texture, NULL, NULL, &w, &h);
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
-    textr.w = w / 8;
-    textr.h = h / 8;
+    textr.w = w / 4;
+    textr.h = h / 4;
     double angle;
     for (int i = 0; i < GC->nb_bullets; i++)
     {
         angle = atan2(GC->bullets[i]->direction->x, 
                 GC->bullets[i]->direction->y);
         angle = angle * (180 / M_PI1);
-        textr.x = (GC->bullets[i]->position->x  + 1) * w / 4;
-        textr.y = (GC->bullets[i]->position->y + 1) * h / 4;
+        textr.x = (GC->bullets[i]->position->x  + 0) * w / 4;
+        textr.y = (GC->bullets[i]->position->y + 0) * h / 4;
         SDL_RenderCopyEx(renderer, bullet_texture, NULL, &textr, angle,
                 NULL, flip);
     }
