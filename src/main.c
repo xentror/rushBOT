@@ -20,9 +20,6 @@ int main(int argc, char *argv[])
     render_tanks(&game, renderer);
     SDL_RenderPresent(renderer);
 
-    game.player1->position->x = 1;
-    game.player1->position->y = 1;
-
     while (game.isPlaying)
     {
         get_input(&game);

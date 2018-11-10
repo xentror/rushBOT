@@ -1,21 +1,30 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include "map.h"
 #include "context.h"
+
+int nb_rnd = 0;
 
 struct vector2 *spawnTank(struct GameContext game)
 {
     int h = game.map->height;
     int w = game.map->width;
+    srand(time(NULL) + nb_rnd++);
     int pos_x = rand() % w;
     int pos_y = rand() % h;
-    while (game.map->table[pos_y][pos_x]->type)
+    while (game.map->table[pos_y][pos_x]->type != 0)
     {
+        printf("SUcePutE\n");
         pos_x = rand() % w;
         pos_y = rand() % h;
     }
+    printf("pos_x=%d pos_y=%d type pos %d\n", pos_x, pos_y, 
+            game.map->table[pos_y][pos_x]->type);
+
     struct vector2 *new = malloc(sizeof(struct vector2));
-    new->y = pos_y + 0.5;
-    new->x = pos_x + 0.5;
+    new->y = pos_y - 0.5;
+    new->x = pos_x - 0.5;
     return new;
 }
 
