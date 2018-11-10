@@ -4,10 +4,10 @@
 #include "render.h"
 #include "map.h"
 
-int render_map(struct map *map)
+
+SDL_Window *window_init(struct map *map)
 {
     SDL_Window *window;
-    SDL_Renderer *renderer;
 
     int W = map->width * TEXTURE_W / 4;
     int H = map->height * TEXTURE_H / 4;
@@ -22,9 +22,14 @@ int render_map(struct map *map)
     if (window == NULL) 
     {
         printf("could not create window\n");
-        return 1;
+        return NULL;
     }
+    return window;
+}
 
+int render_map(struct map *map, SDL_Window *window)
+{
+    SDL_Renderer *renderer;
     renderer = SDL_CreateRenderer(window, -1, 0);
 
     int w, h;
@@ -57,9 +62,5 @@ int render_map(struct map *map)
         b += h / 4;
     }
     SDL_RenderPresent(renderer);
-
-    SDL_Delay(30000);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
     return 0;
 }
