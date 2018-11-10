@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include <stdlib.h>
-
 #include "map.h"
 
 static struct block *create_block(char c)
