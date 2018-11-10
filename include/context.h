@@ -11,8 +11,8 @@ struct vector2
 
 struct tank
 {
-    struct *vector2 position;
-    struct *vector2 direction;
+    struct vector2 *position;
+    struct vector2 *direction;
     int health;
     float speed;
 };
@@ -27,7 +27,7 @@ enum bulletType
 
 struct bullet
 {
-    struct *vector2 direction;
+    struct vector2 *direction;
     int damage;
     int speed;
     enum bulletType type;
@@ -42,5 +42,7 @@ struct GameContext
     int isPlaying;
     struct bullet **bullets;
 };
+
+void gameInit(struct GameContext *game, char *arg);
 
 #endif /* !CONTEXT_H */
