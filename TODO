@@ -1,1 +1,5 @@
 - free game
+- pas spawn sur une roche ou de la lave
+- pas spawn sur un keume
+- aborted core dumped free invalid pointer a gerer, sortie esc clean
+
