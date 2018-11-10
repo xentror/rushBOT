@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "map.h"
 #include "context.h"
 
 static void free_tanks(struct GameContext *GC)
@@ -27,4 +28,6 @@ void free_game(struct GameContext *GC)
     free_tanks(GC);
     free_bullets(GC);
     free_players(GC);
+    free_map(GC->map);
+    free(GC);
 }
