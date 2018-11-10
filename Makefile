@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -std=c99 -Wall -Wextra -pedantic -g -I include
-SRC = src/map.c src/render.c src/main.c
+SRC = $(wildcard src/*.c)
 
 .PHONY: all
 all:
