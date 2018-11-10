@@ -2,27 +2,13 @@
 #define UPDATE_H
 
 #include "context.h"
-
-enum event
-{
-    J1_LEFT = 0,
-    J1_RIGHT,
-    J1_FORWARD,
-    J1_BACK,
-    J1_SHOT,
-    J2_LEFT,
-    J2_RIGHT,
-    J2_FORWARD,
-    J2_BACK,
-    J2_SHOT,
-    NOTHING,
-    QUIT
-};
+#include "get_input.h"
 
 #define M_PI 3.14159265358979323846
 
 void update(struct GameContext *GC, enum event event);
 void update_input(struct GameContext *GC, enum event event);
 void update_position(struct GameContext *GC);
+void shot(struct GameContext *GC, struct tank *T);
 
 #endif /* !UPDATE_H */

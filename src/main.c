@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <err.h>
+#include "update.h"
 #include "context.h"
 #include "render.h"
+#include "get_input.h"
 
 struct GameContext game;
 
@@ -13,10 +15,13 @@ int main(int argc, char *argv[])
     gameInit(&game, argv[1]);
     SDL_Window *window = window_init(game.map);
     render_map(game.map, window);
-    /*while (game.isPlaying)
+    while (game.isPlaying)
     {
+        enum event event = get_input();
+        update(&game, event);
+        // update frame
         printf("tamerelapute\n");
-    }*/
+    }
     SDL_Delay(30000);
     SDL_DestroyWindow(window);
     SDL_Quit();

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 
 #include "context.h"
 #include "update.h"
@@ -23,6 +24,14 @@ static void update_bullets_position(struct GameContext *GC)
         {
             GC->bullets[i]->position->x += GC->bullets[i]->direction->x;
             GC->bullets[i]->position->y += GC->bullets[i]->direction->y;
+        }
+        else
+        {
+            for (int j = i; j < GC->nb_bullets - 1; j++)
+                GC->bullets[i] = GC->bullets[i + 1];
+            free(GC->bullets[GC->nb_bullets - 1]);
+            GC->nb_bullets -= 1;
+            GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
         }
     }
 }

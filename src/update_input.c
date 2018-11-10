@@ -46,7 +46,7 @@ static struct bullet *create_bullet(struct tank *T)
     return B;
 }
 
-static void shot(struct GameContext *GC, struct tank *T)
+void shot(struct GameContext *GC, struct tank *T)
 {
     GC->nb_bullets += 1;
     GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);

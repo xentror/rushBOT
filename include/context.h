@@ -15,6 +15,7 @@ struct tank
     struct vector2 *direction;
     int health;
     float speed;
+    int since_i_shot;
 };
 
 enum bulletType
