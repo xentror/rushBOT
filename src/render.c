@@ -65,30 +65,26 @@ void render_map(struct map *map, SDL_Renderer *renderer)
 void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
 {
     int w, h;
-    SDL_Texture *player1_texture = IMG_LoadTexture(renderer,
+    SDL_Texture *tank_texture = IMG_LoadTexture(renderer,
             "./textures/tank.png");
-    SDL_Texture *player2_texture = IMG_LoadTexture(renderer,
-            "./textures/tank.jpg");
-    SDL_Texture *enemies_texture = IMG_LoadTexture(renderer,
-            "./textures/tank.jpg");
-    SDL_QueryTexture(player1_texture, NULL, NULL, &w, &h);
+    SDL_QueryTexture(tank_texture, NULL, NULL, &w, &h);
     SDL_Rect textr;
     textr.w = w / 2;
     textr.h = h / 2;
 
     textr.x = GC->player1->position->x * w / 2;
     textr.y = GC->player1->position->y * h / 2;
-    SDL_RenderCopy(renderer, player1_texture, NULL, &textr);
+    SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
 
     textr.x = GC->player2->position->x * w / 2;
     textr.y = GC->player2->position->y * h / 2;
-    SDL_RenderCopy(renderer, player1_texture, NULL, &textr);
+    SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
 
     for (int i = 0; i < GC->nb_enemies; i++)
     {
         textr.x = GC->enemies[i]->position->x * w / 2;
         textr.y = GC->enemies[i]->position->y * h / 2;
-        SDL_RenderCopy(renderer, player1_texture, NULL, &textr);
+        SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
     }
 }
 

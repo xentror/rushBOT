@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     render_tanks(&game, renderer);
     SDL_RenderPresent(renderer);
 
+    game.player1->position->x = 1;
+    game.player1->position->y = 1;
+
     int quit = 0;
     while (!quit)
     {
@@ -37,6 +40,10 @@ int main(int argc, char *argv[])
                     case SDLK_RIGHT: game.player2->position->x += 0.1; break;
                     case SDLK_UP:    game.player2->position->y -= 0.1; break;
                     case SDLK_DOWN:  game.player2->position->y += 0.1; break;
+                    case SDLK_q:  game.player1->position->x -= 0.1; break;
+                    case SDLK_d: game.player1->position->x += 0.1; break;
+                    case SDLK_z:    game.player1->position->y -= 0.1; break;
+                    case SDLK_s:  game.player1->position->y += 0.1; break;
                     case SDLK_p:  quit = 1; break;
                 }
                 break;
