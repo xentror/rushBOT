@@ -119,7 +119,7 @@ void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
         angle = atan2(GC->bullets[i]->direction->x, 
                 GC->bullets[i]->direction->y);
         angle = angle * (180 / M_PI1);
-        textr.x = (GC->bullets[i]->position->x  + 1)* w / 4;
+        textr.x = (GC->bullets[i]->position->x  + 1) * w / 4;
         textr.y = (GC->bullets[i]->position->y + 1) * h / 4;
         SDL_RenderCopyEx(renderer, bullet_texture, NULL, &textr, angle,
                 NULL, flip);

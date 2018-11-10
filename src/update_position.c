@@ -77,13 +77,12 @@ static void update_bullets_position(struct GameContext *GC)
                 GC->bullets[i]->position->y);
         printf("direction (%f, %f)\n", GC->bullets[i]->direction->x,
                 GC->bullets[i]->direction->y);
-        printf("speed : %d", GC->bullets[i]->speed);
         if (!touch_the_wall(GC->map, GC->bullets[i]->position))
         {
             printf("update pos \n");
             GC->bullets[i]->position->x += GC->bullets[i]->direction->x *
                 GC->bullets[i]->speed;
-            GC->bullets[i]->position->y += GC->bullets[i]->direction->y *
+            GC->bullets[i]->position->y -= GC->bullets[i]->direction->y *
                 GC->bullets[i]->speed;
         }
         else
