@@ -47,6 +47,8 @@ static void rotate_right(struct tank *tank)
 static struct bullet *create_bullet(struct tank *tank)
 {
     struct bullet *B = malloc(sizeof(struct bullet));
+    B->position = malloc(sizeof(struct vector2));
+    B->direction = malloc(sizeof(struct vector2));
     B->position->x = tank->position->x + tank->direction->x / 2;
     B->position->y = tank->position->y + tank->direction->y / 2;
     B->direction->x = tank->direction->x;
@@ -58,6 +60,16 @@ static struct bullet *create_bullet(struct tank *tank)
 
     return B;
 }
+
+static void free_bullet(struct bullet *B)
+{
+    if (B == NULL)
+        return;
+    free(B->position);
+    free(B->direction);
+    free(B);
+}
+
 
 void shot(struct GameContext *GC, struct tank *tank)
 {
@@ -74,7 +86,8 @@ void update_input(struct GameContext *GC)
 {
     struct tank *p1 = GC->player1;
     struct tank *p2 = GC->player2;
-
+    shot(GC, p1);
+    shot(GC, p2);
     switch(p1->event)
     {
         case LEFT:
