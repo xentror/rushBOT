@@ -33,7 +33,7 @@ SDL_Window *window_init(struct map *map)
 void render_map(struct map *map, SDL_Renderer *renderer)
 {
     int w, h;
-    SDL_Texture *block = IMG_LoadTexture(renderer, 
+    SDL_Texture *block = IMG_LoadTexture(renderer,
             "./textures/wood_block.jpg");
     SDL_Texture *dirt = IMG_LoadTexture(renderer, "./textures/dirt.jpg");
     SDL_Texture *lava = IMG_LoadTexture(renderer, "./textures/lava.png");
@@ -92,12 +92,12 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
 
     for (int i = 0; i < GC->nb_enemies; i++)
     {
-        angle = atan2(GC->enemies[i]->direction->x, 
+        angle = atan2(GC->enemies[i]->direction->x,
                 GC->enemies[i]->direction->y);
         angle = angle * (180 / M_PI1);
         textr.x = GC->enemies[i]->position->x * w / 4;
         textr.y = GC->enemies[i]->position->y * h / 4;
-        SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, 
+        SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle,
                 NULL, flip);
     }
     SDL_DestroyTexture(tank_texture);
@@ -105,19 +105,19 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
 
 void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
 {
-    SDL_Texture *bullet_texture = IMG_LoadTexture(renderer, 
+    SDL_Texture *bullet_texture = IMG_LoadTexture(renderer,
             "./textures/bullet.png");
     int w, h;
     SDL_QueryTexture(bullet_texture, NULL, NULL, &w, &h);
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
-    textr.w = w / 4;
-    textr.h = h / 4;
+    textr.w = w / 8;
+    textr.h = h / 8;
 
     double angle;
     for (int i = 0; i < GC->nb_bullets; i++)
     {
-        angle = atan2(GC->bullets[i]->direction->x, 
+        angle = atan2(GC->bullets[i]->direction->x,
                 GC->bullets[i]->direction->y);
         angle = angle * (180 / M_PI1);
         textr.x = GC->bullets[i]->position->x * w / 4;

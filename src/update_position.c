@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "context.h"
 #include "update.h"
@@ -72,19 +73,24 @@ static void update_bullets_position(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_bullets; i++)
     {
+        printf("bullets n°%d: (%f, %f)\n", i, GC->bullets[i]->position->x, GC->bullets[i]->position->y);
+        printf("direction (%f, %f)\n", GC->bullets[i]->direction->x, GC->bullets[i]->direction->y);
         if (!touch_the_wall(GC->map, GC->bullets[i]->position))
         {
-            GC->bullets[i]->position->x += GC->bullets[i]->direction->x;
-            GC->bullets[i]->position->y += GC->bullets[i]->direction->y;
+            printf("update pos \n");
+            GC->bullets[i]->position->x += GC->bullets[i]->direction->x * GC->bullets[i]->speed;
+            GC->bullets[i]->position->y += GC->bullets[i]->direction->y * GC->bullets[i]->speed;
         }
         else
         {
             if (GC->bullets[i]->nb_rebounds > 3)
             {
+                printf("destroy bullet \n");
                 destroy_bullet(GC, i);
             }
             else
             {
+                printf("rebondis \n");
                 rebound_bullet(GC->bullets[i]);
                 GC->bullets[i]->nb_rebounds += 1;
             }
@@ -99,14 +105,16 @@ static void update_AI_position(struct GameContext *GC)
         if (!touch_the_wall(GC->map, GC->enemies[i]->position) &&
             !in_the_lava(GC->map, GC->enemies[i]->position))
         {
-            GC->enemies[i]->position->x += GC->enemies[i]->direction->x;
-            GC->enemies[i]->position->y += GC->enemies[i]->direction->y;
+            GC->enemies[i]->position->x += GC->enemies[i]->direction->x * 0.01;
+            GC->enemies[i]->position->y += GC->enemies[i]->direction->y * 0.01;
         }
     }
 }
 
 void update_position(struct GameContext *GC)
 {
+    printf("player2: (%f, %f)\n", GC->player2->position->x, GC->player2->position->y);
+    printf("direction (%f, %f)\n", GC->player2->direction->x, GC->player2->direction->y);
     update_bullets_position(GC);
     update_AI_position(GC);
 }

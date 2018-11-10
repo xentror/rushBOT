@@ -50,12 +50,12 @@ static struct bullet *create_bullet(struct tank *tank)
     struct bullet *B = malloc(sizeof(struct bullet));
     B->position = malloc(sizeof(struct vector2));
     B->direction = malloc(sizeof(struct vector2));
-    B->position->x = tank->position->x + tank->direction->x / 2;
-    B->position->y = tank->position->y + tank->direction->y / 2;
+    B->position->x = tank->position->x;
+    B->position->y = tank->position->y;
     B->direction->x = tank->direction->x;
     B->direction->y = tank->direction->y;
     B->damage = 10;
-    B->speed = 3;
+    B->speed = 0.01;
     B->type = ENORMOUS;
     B->nb_rebounds = 0;
 
