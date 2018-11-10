@@ -9,5 +9,7 @@
 
 SDL_Window *window_init(struct map *map);
 int render_map(struct map *map, SDL_Window *window);
+void render_tanks(struct GameContext *GC, SDL_Window *window);
+void render_bullets(struct GameContext *GC, SDL_Window *window);
 
 #endif /* !RENDER_H */

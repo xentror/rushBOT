@@ -21,12 +21,12 @@ int main(int argc, char *argv[])
         update(&game, event);
 
         render_map(game.map, window);
-        render_tanks(game, window);
-        render_bullets(game, windows);
+        render_tanks(&game, window);
+        render_bullets(&game, window);
         
         printf("running tamerelapute\n");
     }
-    free_game();
+    free_game(&game);
     SDL_Delay(30000);
     SDL_DestroyWindow(window);
     SDL_Quit();
