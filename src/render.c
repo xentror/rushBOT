@@ -113,7 +113,6 @@ void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
     SDL_Rect textr;
     textr.w = w / 8;
     textr.h = h / 8;
-    SDL_Point center = { w / 8, h / 8 };
     double angle;
     for (int i = 0; i < GC->nb_bullets; i++)
     {

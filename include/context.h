@@ -43,7 +43,7 @@ struct bullet
     struct vector2 *position;
     struct vector2 *direction;
     int damage;
-    int speed;
+    float speed;
     enum bulletType type;
     int nb_rebounds;
 };
