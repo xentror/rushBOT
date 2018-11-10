@@ -6,6 +6,7 @@
 #include "map.h"
 #define TEXTURE_W 128
 #define TEXTURE_H 128
+#define M_PI1 3.1415926535
 
 SDL_Window *window_init(struct map *map);
 void render_map(struct map *map, SDL_Renderer *renderer);

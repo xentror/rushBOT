@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "context.h"
 #include "render.h"
@@ -68,22 +69,27 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
     SDL_Texture *tank_texture = IMG_LoadTexture(renderer,
             "./textures/tank.png");
     SDL_QueryTexture(tank_texture, NULL, NULL, &w, &h);
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
     textr.w = w / 2;
     textr.h = h / 2;
 
-    textr.x = GC->player1->position->x * w / 2;
-    textr.y = GC->player1->position->y * h / 2;
-    SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
+    double angle = atan2(GC->player1->direction->x, GC->player1->direction->y);
+    angle = angle * (180 / M_PI1);
+    textr.x = GC->player1->position->x * w / 4;
+    textr.y = GC->player1->position->y * h / 4;
+    SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
 
-    textr.x = GC->player2->position->x * w / 2;
-    textr.y = GC->player2->position->y * h / 2;
-    SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
+    angle = atan2(GC->player1->direction->x, GC->player1->direction->y);
+    angle = angle * (180 / M_PI1);
+    textr.x = GC->player2->position->x * w / 4;
+    textr.y = GC->player2->position->y * h / 4;
+    SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
 
     for (int i = 0; i < GC->nb_enemies; i++)
     {
-        textr.x = GC->enemies[i]->position->x * w / 2;
-        textr.y = GC->enemies[i]->position->y * h / 2;
+        textr.x = GC->enemies[i]->position->x * w / 4;
+        textr.y = GC->enemies[i]->position->y * h / 4;
         SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
     }
 }
