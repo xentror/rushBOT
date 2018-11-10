@@ -14,12 +14,18 @@ static enum floor_type get_floor(struct map *M, float x, float y)
 
 static int touch_the_wall(struct map *M, struct vector2 *position)
 {
-    return get_floor(M, position->x, position->y) == BLOCK;
+    //return get_floor(M, position->x, position->y) == BLOCK;
+    M = M;
+    position = position;
+    return 0;
 }
 
 static int in_the_lava(struct map *M, struct vector2 *position)
 {
-    return get_floor(M, position->x, position->y) == LAVA;
+    //return get_floor(M, position->x, position->y) == LAVA;
+    M = M;
+    position = position;
+    return 0;
 }
 
 static void rebound_bullet(struct bullet *B)
@@ -64,6 +70,8 @@ static void destroy_bullet(struct GameContext *GC, int i)
 {
     for (int j = i; j < GC->nb_bullets - 1; j++)
         GC->bullets[i] = GC->bullets[i + 1];
+    free(GC->bullets[GC->nb_bullets - 1]->direction);
+    free(GC->bullets[GC->nb_bullets - 1]->position);
     free(GC->bullets[GC->nb_bullets - 1]);
     GC->nb_bullets -= 1;
     GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
@@ -86,7 +94,7 @@ static void update_bullets_position(struct GameContext *GC)
         {
             printf("update pos \n");
             GC->bullets[i]->position->x += GC->bullets[i]->direction->x * GC->bullets[i]->speed;
-            GC->bullets[i]->position->y += GC->bullets[i]->direction->y * GC->bullets[i]->speed;
+            GC->bullets[i]->position->y -= GC->bullets[i]->direction->y * GC->bullets[i]->speed;
         }
         else
         {
@@ -103,6 +111,8 @@ static void update_bullets_position(struct GameContext *GC)
             }
         }
     }
+    for (int i = 0; i < GC->nb_bullets; i++)
+        printf("n°%d: todestroy:%d", i, GC->bullets[i]->to_destroy);
     free_destroyed_bullets(GC);
 }
 
