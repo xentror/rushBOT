@@ -9,15 +9,15 @@ static void go(struct tank *tank, int w, int h, int neg)
 {
     tank->position->x = tank->position->x + neg * (0.02 * tank->direction->x);
     tank->position->y = tank->position->y - neg * (0.02 * tank->direction->y);
-    int x = tank->position->x;
-    int y = tank->position->y;
+    float x = tank->position->x;
+    float y = tank->position->y;
     if (x > w)
-        tank->position->x = 0 ;
-    else if (x < 0)
+        tank->position->x = 0.0;
+    else if (x < 0.0)
         tank->position->x = w;
     if (y > h)
-        tank->position->y = 0;
-    else if (y < 0)
+        tank->position->y = 0.0;
+    else if (y < 0.0)
         tank->position->y = h;
 }
 

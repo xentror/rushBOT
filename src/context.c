@@ -22,8 +22,8 @@ struct vector2 *spawnTank(struct GameContext game)
             game.map->table[pos_y][pos_x]->type);
 
     struct vector2 *new = malloc(sizeof(struct vector2));
-    new->y = pos_y - 0.5;
-    new->x = pos_x - 0.5;
+    new->y = pos_y + 0.5;
+    new->x = pos_x + 0.5;
     return new;
 }
 
