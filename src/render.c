@@ -91,9 +91,12 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
 
     for (int i = 0; i < GC->nb_enemies; i++)
     {
+        angle = atan2(GC->enemies[i]->direction->x, 
+                GC->enemies[i]->direction->y);
+        angle = angle * (180 / M_PI1);
         textr.x = GC->enemies[i]->position->x * w / 4;
         textr.y = GC->enemies[i]->position->y * h / 4;
-        SDL_RenderCopy(renderer, tank_texture, NULL, &textr);
+        SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
     }
     SDL_DestroyTexture(tank_texture);
 }

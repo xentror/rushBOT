@@ -42,6 +42,7 @@ void gameInit(struct GameContext *game, char *arg)
     struct tank **enemies = malloc(sizeof(struct tank*) * 2);
     for (size_t i = 0; i < 2; i++)
         enemies[i] = initTank(*game);
+    game->nb_enemies = 2;
     game->enemies = enemies;
     game->isPlaying = 1;
 }
