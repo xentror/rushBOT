@@ -6,30 +6,42 @@
 
 static void go_forward(struct tank *tank)
 {
-    tank->position->x += tank->direction->x;
-    tank->position->y += tank->direction->y;
+    tank->position->x += 0.02 * tank->direction->x;
+    tank->position->y -= 0.02 * tank->direction->y;
 }
 
 static void go_back(struct tank *tank)
 {
-    tank->position->x -= tank->direction->x;
-    tank->position->y -= tank->direction->y;
+    tank->position->x -= 0.02 * tank->direction->x;
+    tank->position->y += 0.02 * tank->direction->y;
+}
+
+static void normalize(struct vector2 *vect)
+{
+    double deno = sqrt(pow(vect->x, 2) + pow(vect->y, 2));
+    vect->x = vect->x / deno;
+    vect->y = vect->y / deno;
 }
 
 static void rotate_left(struct tank *tank)
 {
-    double angle = atan2(tank->direction->x, tank->direction->y);
-    angle += M_PI/16;
-    tank->direction->x = cos(angle);
-    tank->direction->y = sin(angle);
+    normalize(tank->direction);
+    float x = tank->direction->x;
+    float y = tank->direction->y;
+    double angle = 1.0 * (M_PI / 180.0);
+    tank->direction->x = x * cos(angle) - y * sin(angle);
+    tank->direction->y = x * sin(angle) + y * cos(angle);
+    normalize(tank->direction);
 }
 
 static void rotate_right(struct tank *tank)
 {
-    double angle = atan2(tank->direction->x, tank->direction->y);
-    angle -= M_PI/16;
-    tank->direction->x = cos(angle);
-    tank->direction->y = sin(angle);
+    normalize(tank->direction);
+    float x = tank->direction->x;
+    float y = tank->direction->y;
+    double angle = -1.0 * (M_PI / 180.0);
+    tank->direction->x = x * cos(angle) - y * sin(angle);
+    tank->direction->y = x * sin(angle) + y * cos(angle);
 }
 
 static struct bullet *create_bullet(struct tank *tank)

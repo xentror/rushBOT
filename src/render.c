@@ -83,7 +83,7 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
     textr.y = GC->player1->position->y * h / 4;
     SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
 
-    angle = atan2(GC->player1->direction->x, GC->player1->direction->y);
+    angle = atan2(GC->player2->direction->x, GC->player2->direction->y);
     angle = angle * (180 / M_PI1);
     textr.x = GC->player2->position->x * w / 4;
     textr.y = GC->player2->position->y * h / 4;
