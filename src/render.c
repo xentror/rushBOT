@@ -12,8 +12,8 @@ SDL_Window *window_init(struct map *map)
 {
     SDL_Window *window;
 
-    int W = map->width * TEXTURE_W / 4;
-    int H = map->height * TEXTURE_H / 4;
+    int W = map->width * TEXTURE_W / SCALE;
+    int H = map->height * TEXTURE_H / SCALE;
     SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow("TANK BATTLE !!!!",
             SDL_WINDOWPOS_UNDEFINED,
@@ -39,8 +39,8 @@ void render_map(struct map *map, SDL_Renderer *renderer)
     SDL_Texture *lava = IMG_LoadTexture(renderer, "./textures/lava.png");
     SDL_QueryTexture(dirt, NULL, NULL, &w, &h);
     SDL_Rect textr;
-    textr.w = w / 4;
-    textr.h = h / 4;
+    textr.w = w / SCALE;
+    textr.h = h / SCALE;
 
     SDL_RenderClear(renderer);
     int a = 0;
@@ -58,9 +58,9 @@ void render_map(struct map *map, SDL_Renderer *renderer)
                 SDL_RenderCopy(renderer, lava, NULL, &textr);
             if (map->table[i][j]->type == BLOCK)
                 SDL_RenderCopy(renderer, block, NULL, &textr);
-            a += w / 4;
+            a += w / SCALE;
         }
-        b += h / 4;
+        b += h / SCALE;
     }
     SDL_DestroyTexture(block);
     SDL_DestroyTexture(dirt);
@@ -75,19 +75,19 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
     SDL_QueryTexture(tank_texture, NULL, NULL, &w, &h);
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
-    textr.w = w / 4;
-    textr.h = h / 4;
+    textr.w = w / SCALE;
+    textr.h = h / SCALE;
 
     double angle = atan2(GC->player1->direction->x, GC->player1->direction->y);
     angle = angle * (180 / M_PI1);
-    textr.x = GC->player1->position->x * w / 4;
-    textr.y = GC->player1->position->y * h / 4;
+    textr.x = GC->player1->position->x * w / SCALE;
+    textr.y = GC->player1->position->y * h / SCALE;
     SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
 
     angle = atan2(GC->player2->direction->x, GC->player2->direction->y);
     angle = angle * (180 / M_PI1);
-    textr.x = GC->player2->position->x * w / 4;
-    textr.y = GC->player2->position->y * h / 4;
+    textr.x = GC->player2->position->x * w / SCALE;
+    textr.y = GC->player2->position->y * h / SCALE;
     SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle, NULL, flip);
 
     for (int i = 0; i < GC->nb_enemies; i++)
@@ -95,8 +95,8 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
         angle = atan2(GC->enemies[i]->direction->x,
                 GC->enemies[i]->direction->y);
         angle = angle * (180 / M_PI1);
-        textr.x = GC->enemies[i]->position->x * w / 4;
-        textr.y = GC->enemies[i]->position->y * h / 4;
+        textr.x = GC->enemies[i]->position->x * w / SCALE;
+        textr.y = GC->enemies[i]->position->y * h / SCALE;
         SDL_RenderCopyEx(renderer, tank_texture, NULL, &textr, angle,
                 NULL, flip);
     }
@@ -111,16 +111,16 @@ void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
     SDL_QueryTexture(bullet_texture, NULL, NULL, &w, &h);
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
-    textr.w = w / 4;
-    textr.h = h / 4;
+    textr.w = w / SCALE;
+    textr.h = h / SCALE;
     double angle;
     for (int i = 0; i < GC->nb_bullets; i++)
     {
         angle = atan2(GC->bullets[i]->direction->x, 
                 GC->bullets[i]->direction->y);
         angle = angle * (180 / M_PI1);
-        textr.x = (GC->bullets[i]->position->x  + 0) * w / 4;
-        textr.y = (GC->bullets[i]->position->y + 0) * h / 4;
+        textr.x = (GC->bullets[i]->position->x  + 0) * w / SCALE;
+        textr.y = (GC->bullets[i]->position->y + 0) * h / SCALE;
         SDL_RenderCopyEx(renderer, bullet_texture, NULL, &textr, angle,
                 NULL, flip);
     }
