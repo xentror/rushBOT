@@ -15,7 +15,6 @@ struct vector2 *spawnTank(struct GameContext game)
     int pos_y = rand() % h;
     while (game.map->table[pos_y][pos_x]->type != 0)
     {
-        printf("SUcePutE\n");
         pos_x = rand() % w;
         pos_y = rand() % h;
     }
