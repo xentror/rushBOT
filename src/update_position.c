@@ -22,16 +22,7 @@ static int in_the_lava(struct map *M, struct vector2 *position)
     return get_floor(M, position->x, position->y) == LAVA;
 }
 
-void destroy_bullet(struct GameContext *GC, int i)
-{
-    for (int j = i; j < GC->nb_bullets - 1; j++)
-        GC->bullets[i] = GC->bullets[i + 1];
-    free(GC->bullets[GC->nb_bullets - 1]);
-    GC->nb_bullets -= 1;
-    GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
-}
-
-void rebound_bullet(struct bullet *B)
+static void rebound_bullet(struct bullet *B)
 {
     double angle = atan2(B->direction->x, B->direction->y);
 
@@ -69,28 +60,40 @@ void rebound_bullet(struct bullet *B)
     }
 }
 
+static void destroy_bullet(struct GameContext *GC, int i)
+{
+    for (int j = i; j < GC->nb_bullets - 1; j++)
+        GC->bullets[i] = GC->bullets[i + 1];
+    free(GC->bullets[GC->nb_bullets - 1]);
+    GC->nb_bullets -= 1;
+    GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
+}
+
+static void free_destroyed_bullets(struct GameContext *GC)
+{
+    for (int i = 0; i < GC->nb_bullets; i++)
+        if (GC->bullets[i]->to_destroy)
+            destroy_bullet(GC, i);
+}
+
 static void update_bullets_position(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_bullets; i++)
     {
-        printf("bullets n°%d: (%f, %f)\n", i, GC->bullets[i]->position->x,
-                GC->bullets[i]->position->y);
-        printf("direction (%f, %f)\n", GC->bullets[i]->direction->x,
-                GC->bullets[i]->direction->y);
+        printf("bullets n°%d: (%f, %f)\n", i, GC->bullets[i]->position->x, GC->bullets[i]->position->y);
+        printf("direction (%f, %f)\n", GC->bullets[i]->direction->x, GC->bullets[i]->direction->y);
         if (!touch_the_wall(GC->map, GC->bullets[i]->position))
         {
             printf("update pos \n");
-            GC->bullets[i]->position->x += GC->bullets[i]->direction->x *
-                GC->bullets[i]->speed;
-            GC->bullets[i]->position->y -= GC->bullets[i]->direction->y *
-                GC->bullets[i]->speed;
+            GC->bullets[i]->position->x += GC->bullets[i]->direction->x * GC->bullets[i]->speed;
+            GC->bullets[i]->position->y += GC->bullets[i]->direction->y * GC->bullets[i]->speed;
         }
         else
         {
             if (GC->bullets[i]->nb_rebounds > 3)
             {
                 printf("destroy bullet \n");
-                destroy_bullet(GC, i);
+                GC->bullets[i]->to_destroy = 1;
             }
             else
             {
@@ -100,6 +103,7 @@ static void update_bullets_position(struct GameContext *GC)
             }
         }
     }
+    free_destroyed_bullets(GC);
 }
 
 static void update_AI_position(struct GameContext *GC)
