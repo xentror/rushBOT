@@ -27,6 +27,7 @@ enum bulletType
 
 struct bullet
 {
+    struct vector2 *position;
     struct vector2 *direction;
     int damage;
     int speed;
@@ -37,10 +38,12 @@ struct GameContext
 {
     struct map *map;
     struct tank **enemies;
+    int nb_enemies;
     struct tank *player1;
     struct tank *player2;
     int isPlaying;
     struct bullet **bullets;
+    int nb_bullets;
 };
 
 void gameInit(struct GameContext *game, char *arg);
