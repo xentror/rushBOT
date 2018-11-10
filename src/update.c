@@ -14,9 +14,9 @@ static void update_AI_behaviour(struct GameContext *GC)
     }
 }
 
-void update(struct GameContext *GC, enum event event)
+void update(struct GameContext *GC)
 {
-    update_input(GC, event);
+    update_input(GC);
     update_position(GC);
     update_AI_behaviour(GC);
 }

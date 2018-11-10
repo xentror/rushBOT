@@ -4,41 +4,41 @@
 #include "context.h"
 #include "update.h"
 
-static void go_forward(struct tank *T)
+static void go_forward(struct tank *tank)
 {
-    T->position->x += T->direction->x;
-    T->position->y += T->direction->y;
+    tank->position->x += tank->direction->x;
+    tank->position->y += tank->direction->y;
 }
 
-static void go_back(struct tank *T)
+static void go_back(struct tank *tank)
 {
-    T->position->x -= T->direction->x;
-    T->position->y -= T->direction->y;
+    tank->position->x -= tank->direction->x;
+    tank->position->y -= tank->direction->y;
 }
 
-static void rotate_left(struct tank *T)
+static void rotate_left(struct tank *tank)
 {
-    double angle = atan2(T->direction->x, T->direction->y);
+    double angle = atan2(tank->direction->x, tank->direction->y);
     angle += M_PI/16;
-    T->direction->x = cos(angle);
-    T->direction->y = sin(angle);
+    tank->direction->x = cos(angle);
+    tank->direction->y = sin(angle);
 }
 
-static void rotate_right(struct tank *T)
+static void rotate_right(struct tank *tank)
 {
-    double angle = atan2(T->direction->x, T->direction->y);
+    double angle = atan2(tank->direction->x, tank->direction->y);
     angle -= M_PI/16;
-    T->direction->x = cos(angle);
-    T->direction->y = sin(angle);
+    tank->direction->x = cos(angle);
+    tank->direction->y = sin(angle);
 }
 
-static struct bullet *create_bullet(struct tank *T)
+static struct bullet *create_bullet(struct tank *tank)
 {
     struct bullet *B = malloc(sizeof(struct bullet));
-    B->position->x = T->position->x + T->direction->x / 2;
-    B->position->y = T->position->y + T->direction->y / 2;
-    B->direction->x = T->direction->x;
-    B->direction->y = T->direction->y;
+    B->position->x = tank->position->x + tank->direction->x / 2;
+    B->position->y = tank->position->y + tank->direction->y / 2;
+    B->direction->x = tank->direction->x;
+    B->direction->y = tank->direction->y;
     B->damage = 10;
     B->speed = 3;
     B->type = ENORMOUS;
@@ -46,53 +46,57 @@ static struct bullet *create_bullet(struct tank *T)
     return B;
 }
 
-void shot(struct GameContext *GC, struct tank *T)
+void shot(struct GameContext *GC, struct tank *tank)
 {
-    GC->nb_bullets += 1;
-    GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
-    GC->bullets[GC->nb_bullets] = create_bullet(T);
+    if (tank->is_shoting)
+    {
+        GC->bullets = realloc(GC->bullets, sizeof(struct bullet *)
+                * GC->nb_bullets + 1);
+        GC->bullets[GC->nb_bullets] = create_bullet(tank);
+        tank->is_shoting = 0;
+    }
 }
 
-void update_input(struct GameContext *GC, enum event event)
+void update_input(struct GameContext *GC)
 {
     struct tank *p1 = GC->player1;
     struct tank *p2 = GC->player2;
 
-    switch(event)
+    switch(p1->event)
     {
-        case J1_LEFT:
+        case LEFT:
             rotate_left(p1);
             break;
-        case J1_RIGHT:
+        case RIGHT:
             rotate_right(p1);
             break;
-        case J1_FORWARD:
+        case FORWARD:
             go_forward(p1);
             break;
-        case J1_BACK:
+        case BACK:
             go_back(p1);
             break;
-        case J1_SHOT:
-            shot(GC, p1);
-            break;
-        case J2_LEFT:
-            rotate_left(p2);
-            break;
-        case J2_RIGHT:
-            rotate_right(p2);
-            break;
-        case J2_FORWARD:
-            go_forward(p2);
-            break;
-        case J2_BACK:
-            go_back(p2);
-            break;
-        case J2_SHOT:
-            shot(GC, p2);
-            break;
-        case QUIT:
-            break;
+        case NOTHING:
         default:
             break;
+    }
+    switch(p2->event)
+    {
+        case LEFT:
+            rotate_left(p2);
+            break;
+        case RIGHT:
+            rotate_right(p2);
+            break;
+        case FORWARD:
+            go_forward(p2);
+            break;
+        case BACK:
+            go_back(p2);
+            break;
+        case NOTHING:
+        default:
+            break;
+
     }
 }

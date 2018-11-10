@@ -3,6 +3,16 @@
 
 #include "map.h"
 
+enum event
+{
+    LEFT = 0,
+    RIGHT,
+    FORWARD,
+    BACK,
+    NOTHING,
+    QUIT
+};
+
 struct vector2
 {
     float x;
@@ -15,7 +25,9 @@ struct tank
     struct vector2 *direction;
     int health;
     float speed;
+    int is_shoting;
     int since_i_shot;
+    enum event event;
 };
 
 enum bulletType
@@ -48,6 +60,10 @@ struct GameContext
 };
 
 void gameInit(struct GameContext *game, char *arg);
-void free_game(struct GameContext *GC);
+void free_game(struct GameContext *game);
+
+void get_input(struct GameContext *game);
+
+
 
 #endif /* !CONTEXT_H */

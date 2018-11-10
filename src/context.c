@@ -28,6 +28,9 @@ struct tank *initTank(struct GameContext game)
     new->direction->y = 0;
     new->health = 100;
     new->speed = 0;
+    new->event = NOTHING;
+    new->is_shoting = 0;
+    new->since_i_shot = 0;
     return new;
 }
 
