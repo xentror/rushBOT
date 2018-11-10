@@ -30,6 +30,44 @@ void destroy_bullet(struct GameContext *GC, int i)
     GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
 }
 
+void rebound_bullet(struct bullet *B)
+{
+    double angle = atan2(B->direction->x, B->direction->y);
+
+    // hit by the left
+    if (B->position->x - floor(B->position->x) < 0.5
+        && angle <= M_PI / 2 && angle >= -M_PI / 2)
+    {
+
+
+    }
+
+    // hit by the right
+    if (B->position->x - floor(B->position->x) >= 0.5
+        && ((angle >= M_PI / 2 && angle <= M_PI) ||
+        (angle >= -M_PI && angle <= -M_PI / 2)))
+    {
+
+
+    }
+
+    // hit by the top
+    if (B->position->y - floor(B->position->y) < 0.5
+        && angle <= 0 && angle >= -M_PI)
+    {
+
+
+    }
+
+    // hit by the bottom
+    if (B->position->y - floor(B->position->y) < 0.5
+        && angle <= 0 && angle >= -M_PI)
+    {
+
+
+    }
+}
+
 static void update_bullets_position(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_bullets; i++)
@@ -41,6 +79,7 @@ static void update_bullets_position(struct GameContext *GC)
         }
         else
         {
+            rebound_bullet(GC->bullets[i]);
             if (GC->bullets[i]->nb_rebounds > 3)
                 destroy_bullet(GC, i);
             GC->bullets[i]->nb_rebounds += 1;
