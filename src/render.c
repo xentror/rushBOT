@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
+
+#include "context.h"
 #include "render.h"
 #include "map.h"
 
@@ -18,8 +20,8 @@ SDL_Window *window_init(struct map *map)
             W,
             H,
             SDL_WINDOW_OPENGL);
-    
-    if (window == NULL) 
+
+    if (window == NULL)
     {
         printf("could not create window\n");
         return NULL;
@@ -58,9 +60,31 @@ int render_map(struct map *map, SDL_Window *window)
             if (map->table[i][j]->type == BLOCK)
                 SDL_RenderCopy(renderer, block, NULL, &textr);
             a += w / 4;
-        } 
+        }
         b += h / 4;
     }
     SDL_RenderPresent(renderer);
     return 0;
+}
+
+void render_tanks(struct GameContext *GC, SDL_Window *window)
+{
+    SDL_Texture *player1_texture = IMG_LoadTexture(renderer, "./textures/tank.jpg");
+    SDL_Texture *player2_texture = IMG_LoadTexture(renderer, "./textures/tank.jpg");
+    SDL_Texture *enemies_texture = IMG_LoadTexture(renderer, "./textures/tank.jpg");
+
+    for (int i = 0; i < GC->nb_enemies; i++)
+    {
+        // render GC->enemies[i];
+    }
+}
+
+void render_bullets(struct GameContext *GC, SDL_Window *window)
+{
+    SDL_Texture *bullet_texture = IMG_LoadTexture(renderer, "./textures/bullet.png");
+
+    for (int i = 0; i < GC->nb_bullets; i++)
+    {
+        // render GC->bullets[i];
+    }
 }

@@ -19,8 +19,12 @@ int main(int argc, char *argv[])
     {
         enum event event = get_input();
         update(&game, event);
-        // update frame
-        printf("tamerelapute\n");
+
+        render_map(game.map, window);
+        render_tanks(game, window);
+        render_bullets(game, windows);
+        
+        printf("running tamerelapute\n");
     }
     free_game();
     SDL_Delay(30000);
