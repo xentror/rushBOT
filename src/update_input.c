@@ -5,16 +5,20 @@
 #include "context.h"
 #include "update.h"
 
-static void go_forward(struct tank *tank)
+static void go(struct tank *tank, int w, int h, int neg)
 {
-    tank->position->x += 0.02 * tank->direction->x;
-    tank->position->y -= 0.02 * tank->direction->y;
-}
-
-static void go_back(struct tank *tank)
-{
-    tank->position->x -= 0.02 * tank->direction->x;
-    tank->position->y += 0.02 * tank->direction->y;
+    tank->position->x = tank->position->x + neg * (0.02 * tank->direction->x);
+    tank->position->y = tank->position->y - neg * (0.02 * tank->direction->y);
+    int x = tank->position->x;
+    int y = tank->position->y;
+    if (x > w)
+        tank->position->x = 0 ;
+    else if (x < 0)
+        tank->position->x = w;
+    if (y > h)
+        tank->position->y = 0;
+    else if (y < 0)
+        tank->position->y = h;
 }
 
 static void normalize(struct vector2 *vect)
@@ -24,25 +28,15 @@ static void normalize(struct vector2 *vect)
     vect->y = vect->y / deno;
 }
 
-static void rotate_left(struct tank *tank)
+static void rotate(struct tank *tank, int neg)
 {
     normalize(tank->direction);
     float x = tank->direction->x;
     float y = tank->direction->y;
-    double angle = 1.0 * (M_PI / 180.0);
+    double angle = neg * 1.0 * (M_PI / 180.0);
     tank->direction->x = x * cos(angle) - y * sin(angle);
     tank->direction->y = x * sin(angle) + y * cos(angle);
     normalize(tank->direction);
-}
-
-static void rotate_right(struct tank *tank)
-{
-    normalize(tank->direction);
-    float x = tank->direction->x;
-    float y = tank->direction->y;
-    double angle = -1.0 * (M_PI / 180.0);
-    tank->direction->x = x * cos(angle) - y * sin(angle);
-    tank->direction->y = x * sin(angle) + y * cos(angle);
 }
 
 static struct bullet *create_bullet(struct tank *tank)
@@ -79,21 +73,23 @@ void update_input(struct GameContext *GC)
 {
     struct tank *p1 = GC->player1;
     struct tank *p2 = GC->player2;
+    int h = GC->map->width;
+    int w = GC->map->height;
     shot(GC, p1);
     shot(GC, p2);
     switch(p1->event)
     {
         case LEFT:
-            rotate_left(p1);
+            rotate(p1, 1);
             break;
         case RIGHT:
-            rotate_right(p1);
+            rotate(p1, -1);
             break;
         case FORWARD:
-            go_forward(p1);
+            go(p1, w, h, 1);
             break;
         case BACK:
-            go_back(p1);
+            go(p1, w, h, -1);
             break;
         case NOTHING:
         default:
@@ -102,20 +98,19 @@ void update_input(struct GameContext *GC)
     switch(p2->event)
     {
         case LEFT:
-            rotate_left(p2);
+            rotate(p2, 1);
             break;
         case RIGHT:
-            rotate_right(p2);
+            rotate(p2, -1);
             break;
         case FORWARD:
-            go_forward(p2);
+            go(p2, w, h, 1);
             break;
         case BACK:
-            go_back(p2);
+            go(p2, w, h, -1);
             break;
         case NOTHING:
         default:
             break;
-
     }
 }
