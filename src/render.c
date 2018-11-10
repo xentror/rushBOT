@@ -106,22 +106,22 @@ void render_tanks(struct GameContext *GC, SDL_Renderer *renderer)
 void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
 {
     SDL_Texture *bullet_texture = IMG_LoadTexture(renderer,
-            "./textures/bullet.png");
+            "./textures/bullet1.png");
     int w, h;
     SDL_QueryTexture(bullet_texture, NULL, NULL, &w, &h);
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     SDL_Rect textr;
     textr.w = w / 8;
     textr.h = h / 8;
-
+    SDL_Point center = { w / 8, h / 8 };
     double angle;
     for (int i = 0; i < GC->nb_bullets; i++)
     {
-        angle = atan2(GC->bullets[i]->direction->x,
+        angle = atan2(GC->bullets[i]->direction->x, 
                 GC->bullets[i]->direction->y);
         angle = angle * (180 / M_PI1);
-        textr.x = GC->bullets[i]->position->x * w / 4;
-        textr.y = GC->bullets[i]->position->y * h / 4;
+        textr.x = (GC->bullets[i]->position->x  + 1)* w / 4;
+        textr.y = (GC->bullets[i]->position->y + 1) * h / 4;
         SDL_RenderCopyEx(renderer, bullet_texture, NULL, &textr, angle,
                 NULL, flip);
     }
