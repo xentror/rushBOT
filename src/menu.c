@@ -13,24 +13,23 @@ int menu(SDL_Renderer *renderer)
 
     SDL_GetRendererOutputSize(renderer, &w, &h);
 
-    SDL_Surface *s = SDL_CreateRGBSurface(0, w/5, h/5, 200, 0, 10, 50, 0);
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, s);
 
-
-
+    SDL_Texture *img_texture_start = IMG_LoadTexture(renderer, "./textures/start_game.jpg");
     SDL_Rect start;
-    start.x = w/2;
+    start.x = 2*w/3;
     start.y = h/2;
     start.w = w/5;
-    start.h = h/5;
-    SDL_RenderCopy(renderer, texture, NULL, &start);
+    start.h = h/10;
+    SDL_RenderCopy(renderer, img_texture_start, NULL, &start);
 
+
+    SDL_Texture *img_texture_quit = IMG_LoadTexture(renderer, "./textures/quit.jpg");
     SDL_Rect quit;
-    quit.x = w/2;
+    quit.x = 2*w/3;
     quit.y = 2*h/3;
     quit.w = w/5;
-    quit.h = h/5;
-    SDL_RenderCopy(renderer, texture, NULL, &quit);
+    quit.h = h/10;
+    SDL_RenderCopy(renderer, img_texture_quit, NULL, &quit);
 
     SDL_RenderPresent(renderer);
 
@@ -42,11 +41,11 @@ int menu(SDL_Renderer *renderer)
             int mouse_x;
             int mouse_y;
             SDL_GetMouseState(&mouse_x, &mouse_y);
-            if(event.type == SDL_MOUSEBUTTONDOWN && mouse_x > w/2 &&
-              mouse_x < w/2 + w/5 && mouse_y > h/2 && mouse_y < h/2 + h/5)
+            if(event.type == SDL_MOUSEBUTTONDOWN && mouse_x > 2*w/3 &&
+              mouse_x < 2*w/3 + w/5 && mouse_y > h/2 && mouse_y < h/2 + h/10)
                 return 1;
-            if(event.type == SDL_MOUSEBUTTONDOWN && mouse_x > w/2 &&
-              mouse_x < w/2 + w/5 && mouse_y > 2*h/3 && mouse_y < 2*h/3 + h/h)
+            if(event.type == SDL_MOUSEBUTTONDOWN && mouse_x > 2*w/3 &&
+              mouse_x < 2*w/3 + w/5 && mouse_y > 2*h/3 && mouse_y < 2*h/3 + h/10)
                 return 0;
         }
     }
