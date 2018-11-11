@@ -64,9 +64,10 @@ static void destroy_bullet(struct GameContext *GC, int i)
 {
     struct bullet *tmp = GC->bullets[i];
     for (int j = i; j < GC->nb_bullets - 1; j++)
-        GC->bullets[i] = GC->bullets[i + 1];
+        GC->bullets[j] = GC->bullets[j + 1];
     free(tmp->direction);
     free(tmp->position);
+    printf("addess tmp %p\n",(void*)tmp);
     free(tmp);
     GC->nb_bullets -= 1;
     GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) *

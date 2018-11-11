@@ -88,8 +88,7 @@ void shot(struct GameContext *GC, struct tank *tank)
         printf("shot !\n");
         GC->bullets = realloc(GC->bullets, sizeof(struct bullet *)
                 * GC->nb_bullets + 1);
-        GC->bullets[GC->nb_bullets] = create_bullet(tank);
-        GC->nb_bullets += 1;
+        GC->bullets[GC->nb_bullets++] = create_bullet(tank);
         tank->is_shoting = 0;
     }
 }
