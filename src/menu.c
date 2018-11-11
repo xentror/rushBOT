@@ -51,13 +51,31 @@ int menu(SDL_Renderer *renderer)
             SDL_GetMouseState(&mouse_x, &mouse_y);
             if(event.type == SDL_MOUSEBUTTONDOWN && mouse_x > 3*w/5 &&
               mouse_x < 3*w/5 + w/7 && mouse_y > h/2 && mouse_y < h/2 + h/7)
+            {
+                SDL_DestroyTexture(img_texture);
+                SDL_DestroyTexture(img_texture_start_1);
+                SDL_DestroyTexture(img_texture_start_2);
+                SDL_DestroyTexture(img_texture_quit);
                 return 1;
+            }
             if(event.type == SDL_MOUSEBUTTONDOWN && mouse_x > 3*w/5 +w/5 &&
               mouse_x < 3*w/5 + w/5 + w/7 && mouse_y > h/2 && mouse_y < h/2 + h/7)
+            {
+                SDL_DestroyTexture(img_texture);
+                SDL_DestroyTexture(img_texture_start_1);
+                SDL_DestroyTexture(img_texture_start_2);
+                SDL_DestroyTexture(img_texture_quit);
                 return 2;
+            }
             if(event.type == SDL_MOUSEBUTTONDOWN && mouse_x > 2*w/3 &&
               mouse_x < 2*w/3 + w/10 && mouse_y > 3*h/4 && mouse_y < 3*h/4 + h/20)
+            {
+                SDL_DestroyTexture(img_texture);
+                SDL_DestroyTexture(img_texture_start_1);
+                SDL_DestroyTexture(img_texture_start_2);
+                SDL_DestroyTexture(img_texture_quit);
                 return 0;
+            }
         }
     }
 }
