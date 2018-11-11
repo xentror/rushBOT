@@ -20,19 +20,26 @@ int main(int argc, char *argv[])
     render_tanks(&game, renderer);
     SDL_RenderPresent(renderer);
 
-    while (game.isPlaying)
+    while(menu(renderer))
     {
-        get_input(&game);
-        update(&game);
-        render_map(game.map, renderer);
-        render_tanks(&game, renderer);
-        SDL_RenderPresent(renderer);
+      struct GameContext game;
+      gameInit(&game, argv[1]);
 
-        render_bullets(&game, renderer);
-        SDL_RenderPresent(renderer);
+      while (game.isPlaying)
+      {
+          get_input(&game);
+          update(&game);
+          render_map(game.map, renderer);
+          render_tanks(&game, renderer);
+          SDL_RenderPresent(renderer);
+
+          render_bullets(&game, renderer);
+          SDL_RenderPresent(renderer);
+      }
+      free_game(&game);
     }
 
-    free_game(&game);
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

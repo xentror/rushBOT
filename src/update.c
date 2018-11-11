@@ -1,10 +1,11 @@
 #include "update.h"
 #include "context.h"
-
+#include <stdio.h>
 static void update_AI_behaviour(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_enemies; i++)
     {
+        printf("s:%d\n", GC->enemies[i]->since_i_shot);
         GC->enemies[i]->since_i_shot += 1;
         if (GC->enemies[i]->since_i_shot > 100)
         {

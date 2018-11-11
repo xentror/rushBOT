@@ -1,7 +1,11 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
 #include "map.h"
+
 
 enum event
 {
@@ -72,7 +76,7 @@ struct GameContext
 
 void gameInit(struct GameContext *game, char *arg);
 void free_game(struct GameContext *game);
-
+int menu(SDL_Renderer *renderer);
 void get_input(struct GameContext *game);
 
 
