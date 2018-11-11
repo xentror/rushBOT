@@ -10,17 +10,20 @@ struct GameContext game;
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)
-        errx(1, "Please enter path for map like: ./toto <path>");
-    gameInit(&game, argv[1]);
-    SDL_Window *window = window_init(game.map);
+    if (argc != 1)
+        errx(1, "Please enter path for map like: ./main");
+
+    SDL_Window *window = window_init();
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
             SDL_RENDERER_ACCELERATED);
 
-    while(menu(renderer))
+    int res;
+    while(res = menu(renderer))
     {
-      struct GameContext game;
-      gameInit(&game, argv[1]);
+      if (res == 1)
+        gameInit(&game, "maps/mossoul");
+      else
+        gameInit(&game, "maps/shastri_nagar");
 
       while (game.isPlaying)
       {
@@ -33,6 +36,7 @@ int main(int argc, char *argv[])
           render_bullets(&game, renderer);
           SDL_RenderPresent(renderer);
       }
+      
       free_game(&game);
     }
 

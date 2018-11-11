@@ -8,12 +8,12 @@
 #include "map.h"
 
 
-SDL_Window *window_init(struct map *map)
+SDL_Window *window_init(void)
 {
     SDL_Window *window;
 
-    int W = map->width * TEXTURE_W / SCALE;
-    int H = map->height * TEXTURE_H / SCALE;
+    int W = WIDTH_WINDOW * TEXTURE_W / SCALE;
+    int H = HEIGHT_WINDOW * TEXTURE_H / SCALE;
     SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow("TANK BATTLE !!!!",
             SDL_WINDOWPOS_UNDEFINED,
@@ -122,7 +122,7 @@ void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
     double angle;
     for (int i = 0; i < GC->nb_bullets; i++)
     {
-        angle = atan2(GC->bullets[i]->direction->x, 
+        angle = atan2(GC->bullets[i]->direction->x,
                 GC->bullets[i]->direction->y);
         angle = angle * (180 / M_PI1);
         textr.x = (GC->bullets[i]->position->x  + 0) * w / SCALE;
