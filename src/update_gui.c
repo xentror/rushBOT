@@ -63,5 +63,7 @@ void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos)
 void update_gui(SDL_Renderer *renderer, struct GameContext *GC)
 {
     print_heart(renderer, GC->player1, 0.1);
-    print_heart(renderer, GC->player1, 0.8);
+    print_heart(renderer, GC->player2, 0.8);
+
+
 }
