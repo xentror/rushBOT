@@ -134,6 +134,7 @@ static void update_bullets_position(struct GameContext *GC)
             {
                 printf("destroy bullet \n");
                 GC->bullets[i]->to_destroy = 1;
+            }
             else
             {
                 rebound_bullet(GC->bullets[i]);
