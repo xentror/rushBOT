@@ -35,20 +35,7 @@ void move(struct tank *tank, struct GameContext *GC, int neg)
 
     float x = tank->position->x;
     float y = tank->position->y;
-<<<<<<< HEAD
-    if (x > w)
-        tank->position->x = 0.0;
-    else if (x < 0.0)
-        tank->position->x = w;
-    if (y > h)
-        tank->position->y = 0.0;
-    else if (y < 0.0)
-        tank->position->y = h;
-=======
-    int tmp_x = x;
-    int tmp_y = y;
-    if (GC->map->table[tmp_y][tmp_x]->type == LAVA)
-        tank->health--;
+
     if (x >= w - 0.02)
         tank->position->x = 1.02;
     else if (x <= 0.02)
@@ -57,7 +44,6 @@ void move(struct tank *tank, struct GameContext *GC, int neg)
         tank->position->y = 1.02;
     else if (y < 0.0)
         tank->position->y = h - 1.02;
->>>>>>> [fix] bullet going out of range with segfault
 }
 
 static void normalize(struct vector2 *vect)
