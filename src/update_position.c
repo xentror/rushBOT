@@ -71,6 +71,7 @@ static void destroy_bullet(struct GameContext *GC, int i)
     GC->nb_bullets -= 1;
     GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) *
             GC->nb_bullets);
+    printf("---------------------------------------------------free %d\n", i);
 }
 
 static void free_destroyed_bullets(struct GameContext *GC)
@@ -105,7 +106,7 @@ static void update_bullets_position(struct GameContext *GC)
         }
         else
         {
-            if (GC->bullets[i]->nb_rebounds > 3)
+            if (GC->bullets[i]->nb_rebounds >= 0)
             {
                 printf("destroy bullet \n");
                 GC->bullets[i]->to_destroy = 1;
@@ -119,7 +120,7 @@ static void update_bullets_position(struct GameContext *GC)
         }
     }
     for (int i = 0; i < GC->nb_bullets; i++)
-        printf("n°%d: todestroy:%d", i, GC->bullets[i]->to_destroy);
+        printf("n°%d: todestroy:%d\n", i, GC->bullets[i]->to_destroy);
     free_destroyed_bullets(GC);
 }
 
