@@ -7,9 +7,9 @@
 static enum floor_type get_floor(struct map *M, float x, float y)
 {
     x = x < 0.0 ? 0.0 : x;
-    x = x > M->width ? M->width - 0.01: x;
-    y = y < 0.0 ? 0.0 : y;
-    y = y > M->height ? M->height - 0.01 : y;
+    x = x + 0.5 > M->width ? M->width - 0.6 : x;
+    y = y  < 0.0 ? 0.0 : y;
+    y = y + 0.5 > M->height ? M->height - 0.6 : y;
     size_t nx = floor(x + 0.5);
     size_t ny = floor(y + 0.5);
     return M->table[ny][nx]->type;
