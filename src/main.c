@@ -14,7 +14,7 @@ int main(void)
             SDL_RENDERER_ACCELERATED);
 
     int res;
-    while(res = menu(renderer))
+    while((res = (menu(renderer))))
     {
         if (res == 1)
             gameInit(&game, "maps/mossoul");
