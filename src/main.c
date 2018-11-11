@@ -32,12 +32,15 @@ int main(void)
             update_gui(renderer, &game);
             SDL_RenderPresent(renderer);
         }
-        char *path = "./textures/player1.png";
-        if (game.winner == 0)
-            path = "./textures/player2.png";
-        print_winner(renderer, path);
-        SDL_Delay(2000);
-        free_game(&game);
+        if (game.winner != -1)
+        {
+            char *path = "./textures/player1.png";
+            if (game.winner == 0)
+                path = "./textures/player2.png";
+            print_winner(renderer, path);
+            SDL_Delay(2000);
+        }
+        //free_game(&game);
     }
 
 
