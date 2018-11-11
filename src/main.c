@@ -29,9 +29,9 @@ int main(int argc, char *argv[])
       {
           get_input(&game);
           update(&game);
+          
           render_map(game.map, renderer);
           render_tanks(&game, renderer);
-          SDL_RenderPresent(renderer);
           render_bullets(&game, renderer);
           update_gui(renderer, &game);
           SDL_RenderPresent(renderer);
