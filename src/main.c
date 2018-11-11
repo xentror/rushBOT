@@ -16,9 +16,6 @@ int main(int argc, char *argv[])
     SDL_Window *window = window_init(game.map);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
             SDL_RENDERER_ACCELERATED);
-    render_map(game.map, renderer);
-    render_tanks(&game, renderer);
-    SDL_RenderPresent(renderer);
 
     while(menu(renderer))
     {
