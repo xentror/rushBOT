@@ -7,25 +7,19 @@
 
 static enum floor_type get_floor(struct map *M, float x, float y)
 {
-    size_t nx = floor(x);
-    size_t ny = floor(y);
-    return M->table[nx][ny]->type;
+    size_t nx = floor(x + 0.5);
+    size_t ny = floor(y + 0.5);
+    return M->table[ny][nx]->type;
 }
 
 static int touch_the_wall(struct map *M, struct vector2 *position)
 {
-    //return get_floor(M, position->x, position->y) == BLOCK;
-    M = M;
-    position = position;
-    return 0;
+    return get_floor(M, position->x, position->y) == BLOCK;
 }
 
 static int in_the_lava(struct map *M, struct vector2 *position)
 {
-    //return get_floor(M, position->x, position->y) == LAVA;
-    M = M;
-    position = position;
-    return 0;
+    return get_floor(M, position->x, position->y) == LAVA;
 }
 
 static void rebound_bullet(struct bullet *B)
@@ -68,33 +62,46 @@ static void rebound_bullet(struct bullet *B)
 
 static void destroy_bullet(struct GameContext *GC, int i)
 {
+    struct bullet *tmp = GC->bullets[i];
     for (int j = i; j < GC->nb_bullets - 1; j++)
         GC->bullets[i] = GC->bullets[i + 1];
-    free(GC->bullets[GC->nb_bullets - 1]->direction);
-    free(GC->bullets[GC->nb_bullets - 1]->position);
-    free(GC->bullets[GC->nb_bullets - 1]);
+    free(tmp->direction);
+    free(tmp->position);
+    free(tmp);
     GC->nb_bullets -= 1;
-    GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) * GC->nb_bullets);
+    GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) *
+            GC->nb_bullets);
 }
 
 static void free_destroyed_bullets(struct GameContext *GC)
 {
-    for (int i = 0; i < GC->nb_bullets; i++)
+    int i = 0;
+    while (i < GC->nb_bullets)
+    {
         if (GC->bullets[i]->to_destroy)
             destroy_bullet(GC, i);
+        else
+            i++;
+    }
 }
 
 static void update_bullets_position(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_bullets; i++)
     {
-        printf("bullets n°%d: (%f, %f)\n", i, GC->bullets[i]->position->x, GC->bullets[i]->position->y);
-        printf("direction (%f, %f)\n", GC->bullets[i]->direction->x, GC->bullets[i]->direction->y);
+        printf("bullets n°%d: (%f, %f)\n", i, GC->bullets[i]->position->x,
+                GC->bullets[i]->position->y);
+        printf("direction (%f, %f)\n", GC->bullets[i]->direction->x,
+                GC->bullets[i]->direction->y);
+
+
         if (!touch_the_wall(GC->map, GC->bullets[i]->position))
         {
             printf("update pos \n");
-            GC->bullets[i]->position->x += GC->bullets[i]->direction->x * GC->bullets[i]->speed;
-            GC->bullets[i]->position->y -= GC->bullets[i]->direction->y * GC->bullets[i]->speed;
+            GC->bullets[i]->position->x += GC->bullets[i]->direction->x *
+                GC->bullets[i]->speed;
+            GC->bullets[i]->position->y -= GC->bullets[i]->direction->y *
+                GC->bullets[i]->speed;
         }
         else
         {
