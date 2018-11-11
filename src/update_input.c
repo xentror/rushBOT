@@ -21,7 +21,7 @@ static int checkVector2(struct vector2 *vect, float move_x, float move_y,
     return 1;
 }
 
-static void move(struct tank *tank, struct GameContext *GC, int neg)
+void move(struct tank *tank, struct GameContext *GC, int neg)
 {
     int h = GC->map->height;
     int w = GC->map->width;
@@ -57,7 +57,7 @@ static void normalize(struct vector2 *vect)
     vect->y = vect->y / deno;
 }
 
-static void rotate(struct tank *tank, int neg)
+void rotate(struct tank *tank, int neg)
 {
     normalize(tank->direction);
     float x = tank->direction->x;

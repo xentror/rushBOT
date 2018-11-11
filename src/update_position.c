@@ -12,12 +12,12 @@ static enum floor_type get_floor(struct map *M, float x, float y)
     return M->table[ny][nx]->type;
 }
 
-static int touch_the_wall(struct map *M, struct vector2 *position)
+int touch_the_wall(struct map *M, struct vector2 *position)
 {
     return get_floor(M, position->x, position->y) == BLOCK;
 }
 
-static int in_the_lava(struct map *M, struct vector2 *position)
+int in_the_lava(struct map *M, struct vector2 *position)
 {
     return get_floor(M, position->x, position->y) == LAVA;
 }
@@ -114,18 +114,18 @@ static void update_bullets_position(struct GameContext *GC)
             touch_tank(GC->player1, GC->bullets[i]);
             touch_tank(GC->player2, GC->bullets[i]);
             /*printf("Player1 health: %d\n", GC->player1->health);
-              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n", 
-              GC->player1->hbox->v1->x, GC->player1->hbox->v1->y, 
+              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n",
+              GC->player1->hbox->v1->x, GC->player1->hbox->v1->y,
               GC->player1->hbox->v2->x, GC->player1->hbox->v2->y);
-              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n", 
-              GC->player1->hbox->v3->x, GC->player1->hbox->v3->y, 
+              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n",
+              GC->player1->hbox->v3->x, GC->player1->hbox->v3->y,
               GC->player1->hbox->v4->x, GC->player1->hbox->v4->y);
               printf("Player2 health: %d\n", GC->player2->health);
-              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n", 
-              GC->player2->hbox->v1->x, GC->player2->hbox->v1->y, 
+              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n",
+              GC->player2->hbox->v1->x, GC->player2->hbox->v1->y,
               GC->player2->hbox->v2->x, GC->player2->hbox->v2->y);
-              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n", 
-              GC->player2->hbox->v3->x, GC->player2->hbox->v3->y, 
+              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n",
+              GC->player2->hbox->v3->x, GC->player2->hbox->v3->y,
               GC->player2->hbox->v4->x, GC->player2->hbox->v4->y);*/
 
 
