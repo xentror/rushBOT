@@ -30,10 +30,10 @@ static void rebound_bullet(struct bullet *B)
 {
     double angle = atan2(B->direction->x, B->direction->y);
     angle = angle * (180 / M_PI);
-    printf("angle : %f\n", angle);
+
     float x = B->position->x - floor(B->position->x);
     float y = B->position->y - floor(B->position->y);
-    printf("x: %f y: %f\n", x, y);
+
     if (x > 0.5)
         x = 1 - x;
     if (y > 0.5)
@@ -136,7 +136,6 @@ static void update_bullets_position(struct GameContext *GC)
         {
             if (GC->bullets[i]->nb_rebounds > 2)
             {
-                printf("destroy bullet \n");
                 GC->bullets[i]->to_destroy = 1;
             }
             else

@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "update.h"
 #include "context.h"
 
@@ -10,11 +8,9 @@ static void update_AI_behaviour(struct GameContext *GC)
         if (!touch_the_wall(GC->map, GC->enemies[i]->position) &&
             !in_the_lava(GC->map, GC->enemies[i]->position))
         {
-            printf("SINCE I SHOT:%d\n", GC->enemies[i]->since_i_shot);
             GC->enemies[i]->since_i_shot += 1;
             if (GC->enemies[i]->since_i_shot > 100)
             {
-              printf("SHOOOOT\n");
                 GC->enemies[i]->since_i_shot = 0;
                 GC->enemies[i]->is_shoting = 1;
                 shot(GC, GC->enemies[i]);

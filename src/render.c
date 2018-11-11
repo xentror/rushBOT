@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <stdio.h>
 #include <math.h>
+#include <err.h>
 
 #include "context.h"
 #include "render.h"
@@ -24,7 +24,7 @@ SDL_Window *window_init(void)
 
     if (window == NULL)
     {
-        printf("could not create window\n");
+        errx(1, "could not create window");
         return NULL;
     }
     return window;

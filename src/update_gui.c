@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <stdio.h>
 #include "context.h"
 
 SDL_Texture *full_heart_texture;
@@ -27,7 +26,7 @@ int get_life(struct tank *T)
 void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos, int player)
 {
     int nb_heart = get_life(T);
-    printf("nbheart:%d\n", nb_heart);
+
     int w;
     int h;
     SDL_GetRendererOutputSize(renderer, &w, &h);
@@ -57,7 +56,6 @@ void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos, int pl
 
     for (int i = 0; i < nb_heart; i++)
     {
-        printf("x:%f y:%d\n", w_cur, h/10);
         if (!full_heart_texture)
             full_heart_texture = IMG_LoadTexture(renderer, "./textures/full_heart.png");
         SDL_Rect full_heart;
@@ -71,7 +69,6 @@ void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos, int pl
 
     for (int i = 0; i < 5 - nb_heart; i++)
     {
-        printf("x:%f y:%d\n", w_cur, h/10);
         if(!empty_heart_texture)
             empty_heart_texture = IMG_LoadTexture(renderer, "./textures/empty_heart.png");
         SDL_Rect empty_heart;

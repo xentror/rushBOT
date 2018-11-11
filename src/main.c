@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <err.h>
 #include "update.h"
 #include "context.h"
@@ -29,7 +28,7 @@ int main(int argc, char *argv[])
       {
           get_input(&game);
           update(&game);
-          
+
           render_map(game.map, renderer);
           render_tanks(&game, renderer);
           render_bullets(&game, renderer);
