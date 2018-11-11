@@ -41,6 +41,7 @@ struct tank
     int since_i_shot;
     enum event event;
     struct hitbox *hbox;
+    int t_id;
 };
 
 enum bulletType
@@ -60,6 +61,7 @@ struct bullet
     enum bulletType type;
     int nb_rebounds;
     int to_destroy;
+    int t_id;
 };
 
 struct GameContext

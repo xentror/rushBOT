@@ -28,7 +28,7 @@ static void rebound_bullet(struct bullet *B)
 
     // hit by the left
     if (B->position->x - floor(B->position->x) < 0.5
-        && angle <= M_PI / 2 && angle >= -M_PI / 2)
+            && angle <= M_PI / 2 && angle >= -M_PI / 2)
     {
 
 
@@ -36,8 +36,8 @@ static void rebound_bullet(struct bullet *B)
 
     // hit by the right
     if (B->position->x - floor(B->position->x) >= 0.5
-        && ((angle >= M_PI / 2 && angle <= M_PI) ||
-        (angle >= -M_PI && angle <= -M_PI / 2)))
+            && ((angle >= M_PI / 2 && angle <= M_PI) ||
+                (angle >= -M_PI && angle <= -M_PI / 2)))
     {
 
 
@@ -45,7 +45,7 @@ static void rebound_bullet(struct bullet *B)
 
     // hit by the top
     if (B->position->y - floor(B->position->y) < 0.5
-        && angle <= 0 && angle >= -M_PI)
+            && angle <= 0 && angle >= -M_PI)
     {
 
 
@@ -53,7 +53,7 @@ static void rebound_bullet(struct bullet *B)
 
     // hit by the bottom
     if (B->position->y - floor(B->position->y) < 0.5
-        && angle <= 0 && angle >= -M_PI)
+            && angle <= 0 && angle >= -M_PI)
     {
 
 
@@ -67,12 +67,10 @@ static void destroy_bullet(struct GameContext *GC, int i)
         GC->bullets[j] = GC->bullets[j + 1];
     free(tmp->direction);
     free(tmp->position);
-    printf("addess tmp %p\n",(void*)tmp);
     free(tmp);
     GC->nb_bullets -= 1;
     GC->bullets = realloc(GC->bullets, sizeof(struct bullet *) *
             GC->nb_bullets);
-    printf("---------------------------------------------------free %d\n", i);
 }
 
 static void free_destroyed_bullets(struct GameContext *GC)
@@ -87,41 +85,64 @@ static void free_destroyed_bullets(struct GameContext *GC)
     }
 }
 
+static void touch_tank(struct tank *tank, struct bullet *bullet)
+{
+    struct vector2 *pos = bullet->position;
+    if (tank->t_id != bullet->t_id)
+    {
+        if (pos->y >= tank->hbox->v1->y && pos->y <= tank->hbox->v2->y)
+        {
+            if (pos->x >= tank->hbox->v1->x && pos->x <= tank->hbox->v4->x)
+            {
+                tank->health -= bullet->damage;
+                bullet->to_destroy = 1;
+            }
+        }
+    }
+}
+
 static void update_bullets_position(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_bullets; i++)
     {
-        printf("bullets n°%d: (%f, %f)\n", i, GC->bullets[i]->position->x,
-                GC->bullets[i]->position->y);
-        printf("direction (%f, %f)\n", GC->bullets[i]->direction->x,
-                GC->bullets[i]->direction->y);
-
-
         if (!touch_the_wall(GC->map, GC->bullets[i]->position))
         {
-            printf("update pos \n");
             GC->bullets[i]->position->x += GC->bullets[i]->direction->x *
                 GC->bullets[i]->speed;
             GC->bullets[i]->position->y -= GC->bullets[i]->direction->y *
                 GC->bullets[i]->speed;
+            touch_tank(GC->player1, GC->bullets[i]);
+            touch_tank(GC->player2, GC->bullets[i]);
+            /*printf("Player1 health: %d\n", GC->player1->health);
+              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n", 
+              GC->player1->hbox->v1->x, GC->player1->hbox->v1->y, 
+              GC->player1->hbox->v2->x, GC->player1->hbox->v2->y);
+              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n", 
+              GC->player1->hbox->v3->x, GC->player1->hbox->v3->y, 
+              GC->player1->hbox->v4->x, GC->player1->hbox->v4->y);
+              printf("Player2 health: %d\n", GC->player2->health);
+              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n", 
+              GC->player2->hbox->v1->x, GC->player2->hbox->v1->y, 
+              GC->player2->hbox->v2->x, GC->player2->hbox->v2->y);
+              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n", 
+              GC->player2->hbox->v3->x, GC->player2->hbox->v3->y, 
+              GC->player2->hbox->v4->x, GC->player2->hbox->v4->y);*/
+
+
+            for (int j = 0; j < GC->nb_enemies; j++)
+                touch_tank(GC->enemies[j], GC->bullets[i]);
         }
         else
         {
             if (GC->bullets[i]->nb_rebounds >= 0)
-            {
-                printf("destroy bullet \n");
                 GC->bullets[i]->to_destroy = 1;
-            }
             else
             {
-                printf("rebondis \n");
                 //rebound_bullet(GC->bullets[i]);
                 GC->bullets[i]->nb_rebounds += 1;
             }
         }
     }
-    for (int i = 0; i < GC->nb_bullets; i++)
-        printf("n°%d: todestroy:%d\n", i, GC->bullets[i]->to_destroy);
     free_destroyed_bullets(GC);
 }
 
@@ -130,7 +151,7 @@ static void update_AI_position(struct GameContext *GC)
     for (int i = 0; i < GC->nb_enemies; i++)
     {
         if (!touch_the_wall(GC->map, GC->enemies[i]->position) &&
-            !in_the_lava(GC->map, GC->enemies[i]->position))
+                !in_the_lava(GC->map, GC->enemies[i]->position))
         {
             GC->enemies[i]->position->x += GC->enemies[i]->direction->x * 0.01;
             GC->enemies[i]->position->y += GC->enemies[i]->direction->y * 0.01;
@@ -140,13 +161,6 @@ static void update_AI_position(struct GameContext *GC)
 
 void update_position(struct GameContext *GC)
 {
-    printf("player1: (%f, %f)\n", GC->player1->position->x, GC->player1->position->y);
-    printf("direction (%f, %f)\n", GC->player1->direction->x, GC->player1->direction->y);
-    struct hitbox *hb = GC->player1->hbox;
-    printf("Hitbox:\n");
-    printf("v1 x=%f y=%f | v2 x=%f y=%f\nv3 x=%f y=%f | v4 x=%f y=%f\n", 
-            hb->v1->x, hb->v1->y, hb->v2->x, hb->v2->y, hb->v3->x, hb->v3->y,
-            hb->v4->x, hb->v4->y);
     update_bullets_position(GC);
     update_AI_position(GC);
 }

@@ -9,9 +9,11 @@ static int checkVector2(struct vector2 *vect, float move_x, float move_y,
         struct GameContext *GC)
 {
     float new_x = vect->x + move_x;
-    int tmp_x = new_x;
+    size_t tmp_x = new_x < 0 ? 0 : new_x;
+    tmp_x = tmp_x >= GC->map->width ? GC->map->width : tmp_x;
     float new_y = vect->y - move_y;
-    int tmp_y = new_y;
+    size_t tmp_y = new_y < 0 ? 0 : new_y;
+    tmp_y = tmp_y >= GC->map->height ? GC->map->height : tmp_y;
     if (GC->map->table[tmp_y][tmp_x]->type == BLOCK)
         return 0;
     vect->x = new_x;
@@ -32,17 +34,20 @@ static void move(struct tank *tank, struct GameContext *GC, int neg)
         return;
     tank->position->x = tank->position->x + move_x;
     tank->position->y = tank->position->y - move_y;
-
     float x = tank->position->x;
     float y = tank->position->y;
-    if (x > w)
-        tank->position->x = 0.0;
-    else if (x < 0.0)
-        tank->position->x = w;
-    if (y > h)
-        tank->position->y = 0.0;
+    int tmp_x = x;
+    int tmp_y = y;
+    if (GC->map->table[tmp_y][tmp_x]->type == LAVA)
+        tank->health--;
+    if (x >= w - 0.02)
+        tank->position->x = 0.02;
+    else if (x <= 0.02)
+        tank->position->x = w - 0.02;
+    if (y >= h - 0.02)
+        tank->position->y = 0.02;
     else if (y < 0.0)
-        tank->position->y = h;
+        tank->position->y = h - 0.02;
 }
 
 static void normalize(struct vector2 *vect)
@@ -77,6 +82,7 @@ static struct bullet *create_bullet(struct tank *tank)
     B->type = ENORMOUS;
     B->nb_rebounds = 0;
     B->to_destroy = 0;
+    B->t_id = tank->t_id;
 
     return B;
 }
@@ -85,7 +91,6 @@ void shot(struct GameContext *GC, struct tank *tank)
 {
     if (tank->is_shoting)
     {
-        printf("shot !\n");
         GC->bullets = realloc(GC->bullets, sizeof(struct bullet *)
                 * GC->nb_bullets + 1);
         GC->bullets[GC->nb_bullets++] = create_bullet(tank);

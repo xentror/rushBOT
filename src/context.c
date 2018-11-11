@@ -6,7 +6,7 @@
 
 int nb_rnd = 0;
 
-struct vector2 *spawnTank(struct GameContext game)
+static struct vector2 *spawnTank(struct GameContext game)
 {
     int h = game.map->height;
     int w = game.map->width;
@@ -18,38 +18,35 @@ struct vector2 *spawnTank(struct GameContext game)
         pos_x = rand() % w;
         pos_y = rand() % h;
     }
-    printf("pos_x=%d pos_y=%d type pos %d\n", pos_x, pos_y, 
-            game.map->table[pos_y][pos_x]->type);
-
     struct vector2 *new = malloc(sizeof(struct vector2));
     new->y = pos_y + 0.5;
     new->x = pos_x + 0.5;
     return new;
 }
 
-struct hitbox *initHitbox(struct vector2 *center)
+static struct hitbox *initHitbox(struct vector2 *center)
 {
     struct hitbox *hbox = malloc(sizeof(struct hitbox));
     hbox->v1 = malloc(sizeof(struct vector2));
-    hbox->v1->x = center->x - 0.3;
-    hbox->v1->y = center->y - 0.3;
+    hbox->v1->x = center->x - 0.4;
+    hbox->v1->y = center->y - 0.4;
 
     hbox->v2 = malloc(sizeof(struct vector2));
-    hbox->v2->x = center->x - 0.3;
-    hbox->v2->y = center->y + 0.3;
+    hbox->v2->x = center->x - 0.4;
+    hbox->v2->y = center->y + 0.4;
 
     hbox->v3 = malloc(sizeof(struct vector2));
-    hbox->v3->x = center->x + 0.3;
-    hbox->v3->y = center->y - 0.3;
+    hbox->v3->x = center->x + 0.4;
+    hbox->v3->y = center->y - 0.4;
 
     hbox->v4 = malloc(sizeof(struct vector2));
-    hbox->v4->x = center->x + 0.3;
-    hbox->v4->y = center->y + 0.3;
+    hbox->v4->x = center->x + 0.4;
+    hbox->v4->y = center->y + 0.4;
 
     return hbox;
 }
 
-struct tank *initTank(struct GameContext game)
+static struct tank *initTank(struct GameContext game, int t_id)
 {
     struct tank *new = malloc(sizeof(struct tank));
     new->position = spawnTank(game);
@@ -62,17 +59,18 @@ struct tank *initTank(struct GameContext game)
     new->event = NOTHING;
     new->is_shoting = 0;
     new->since_i_shot = 0;
+    new->t_id = t_id;
     return new;
 }
 
 void gameInit(struct GameContext *game, char *arg)
 {
     game->map = create_map(arg);
-    game->player1 = initTank(*game);
-    game->player2 = initTank(*game);
+    game->player1 = initTank(*game, 0);
+    game->player2 = initTank(*game, 1);
     struct tank **enemies = malloc(sizeof(struct tank*) * 2);
     for (size_t i = 0; i < 2; i++)
-        enemies[i] = initTank(*game);
+        enemies[i] = initTank(*game, 2 + i);
     game->nb_enemies = 2;
     game->enemies = enemies;
     game->isPlaying = 1;
