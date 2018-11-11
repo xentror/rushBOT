@@ -32,4 +32,15 @@ void update(struct GameContext *GC)
     update_input(GC);
     update_position(GC);
     update_AI_behaviour(GC);
+    if (GC->player1->health <= 0)
+    {
+        GC->isPlaying = 0;
+        GC->winner = GC->player2->t_id;
+    }
+    if (GC->player2->health <= 0)
+    {
+        GC->isPlaying = 0;
+        GC->winner = GC->player1->t_id;
+    }
+
 }

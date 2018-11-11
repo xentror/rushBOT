@@ -160,6 +160,10 @@ static void update_AI_position(struct GameContext *GC)
 
 void update_position(struct GameContext *GC)
 {
+    if (in_the_lava(GC->map, GC->player1->position))
+        GC->player1->health--;
+    if (in_the_lava(GC->map, GC->player2->position))
+        GC->player2->health--;
     update_bullets_position(GC);
     update_AI_position(GC);
 }

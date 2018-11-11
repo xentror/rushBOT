@@ -74,4 +74,5 @@ void gameInit(struct GameContext *game, char *arg)
     game->nb_enemies = 2;
     game->enemies = enemies;
     game->isPlaying = 1;
+    game->winner = -1;
 }

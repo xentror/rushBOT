@@ -74,6 +74,7 @@ struct GameContext
     int isPlaying;
     struct bullet **bullets;
     int nb_bullets;
+    int winner;
 };
 
 void gameInit(struct GameContext *game, char *arg);
