@@ -5,6 +5,8 @@
 
 SDL_Texture *full_heart_texture;
 SDL_Texture *empty_heart_texture;
+SDL_Texture *player_1_texture;
+SDL_Texture *player_2_texture;
 
 int get_life(struct tank *T)
 {
@@ -22,7 +24,7 @@ int get_life(struct tank *T)
         return 5;
 }
 
-void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos)
+void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos, int player)
 {
     int nb_heart = get_life(T);
     printf("nbheart:%d\n", nb_heart);
@@ -31,10 +33,32 @@ void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos)
     SDL_GetRendererOutputSize(renderer, &w, &h);
 
     float w_cur = width_pos * w;
+
+    SDL_Rect player_logo;
+    player_logo.x = w_cur;
+    player_logo.y = h/50;
+    player_logo.w = w/30;
+    player_logo.h = h/30;
+    w_cur += w/20;
+
+    if (player == 1)
+    {
+        if (!player_1_texture)
+            player_1_texture = IMG_LoadTexture(renderer, "./textures/tank-b.png");
+        SDL_RenderCopy(renderer, player_1_texture, NULL, &player_logo);
+    }
+    else
+    {
+        if (!player_2_texture)
+            player_2_texture = IMG_LoadTexture(renderer, "./textures/tank-g.png");
+        SDL_RenderCopy(renderer, player_2_texture, NULL, &player_logo);
+    }
+
+
     for (int i = 0; i < nb_heart; i++)
     {
         printf("x:%f y:%d\n", w_cur, h/10);
-        if(!full_heart_texture)
+        if (!full_heart_texture)
             full_heart_texture = IMG_LoadTexture(renderer, "./textures/full_heart.png");
         SDL_Rect full_heart;
         full_heart.x = w_cur;
@@ -62,8 +86,6 @@ void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos)
 
 void update_gui(SDL_Renderer *renderer, struct GameContext *GC)
 {
-    print_heart(renderer, GC->player1, 0.1);
-    print_heart(renderer, GC->player2, 0.8);
-
-
+    print_heart(renderer, GC->player1, 0.05, 1);
+    print_heart(renderer, GC->player2, 0.75, 2);
 }
