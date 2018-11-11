@@ -27,10 +27,33 @@ struct vector2 *spawnTank(struct GameContext game)
     return new;
 }
 
+struct hitbox *initHitbox(struct vector2 *center)
+{
+    struct hitbox *hbox = malloc(sizeof(struct hitbox));
+    hbox->v1 = malloc(sizeof(struct vector2));
+    hbox->v1->x = center->x - 0.3;
+    hbox->v1->y = center->y - 0.3;
+
+    hbox->v2 = malloc(sizeof(struct vector2));
+    hbox->v2->x = center->x - 0.3;
+    hbox->v2->y = center->y + 0.3;
+
+    hbox->v3 = malloc(sizeof(struct vector2));
+    hbox->v3->x = center->x + 0.3;
+    hbox->v3->y = center->y - 0.3;
+
+    hbox->v4 = malloc(sizeof(struct vector2));
+    hbox->v4->x = center->x + 0.3;
+    hbox->v4->y = center->y + 0.3;
+
+    return hbox;
+}
+
 struct tank *initTank(struct GameContext game)
 {
     struct tank *new = malloc(sizeof(struct tank));
     new->position = spawnTank(game);
+    new->hbox = initHitbox(new->position);
     new->direction = malloc(sizeof(struct vector2));
     new->direction->x = 1;
     new->direction->y = 0;

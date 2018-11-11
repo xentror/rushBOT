@@ -131,8 +131,13 @@ static void update_AI_position(struct GameContext *GC)
 
 void update_position(struct GameContext *GC)
 {
-    printf("player2: (%f, %f)\n", GC->player2->position->x, GC->player2->position->y);
-    printf("direction (%f, %f)\n", GC->player2->direction->x, GC->player2->direction->y);
+    printf("player1: (%f, %f)\n", GC->player1->position->x, GC->player1->position->y);
+    printf("direction (%f, %f)\n", GC->player1->direction->x, GC->player1->direction->y);
+    struct hitbox *hb = GC->player1->hbox;
+    printf("Hitbox:\n");
+    printf("v1 x=%f y=%f | v2 x=%f y=%f\nv3 x=%f y=%f | v4 x=%f y=%f\n", 
+            hb->v1->x, hb->v1->y, hb->v2->x, hb->v2->y, hb->v3->x, hb->v3->y,
+            hb->v4->x, hb->v4->y);
     update_bullets_position(GC);
     update_AI_position(GC);
 }

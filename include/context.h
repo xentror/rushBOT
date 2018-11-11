@@ -19,6 +19,14 @@ struct vector2
     float y;
 };
 
+struct hitbox
+{
+    struct vector2 *v1;
+    struct vector2 *v2;
+    struct vector2 *v3;
+    struct vector2 *v4;
+};
+
 struct tank
 {
     struct vector2 *position;
@@ -28,6 +36,7 @@ struct tank
     int is_shoting;
     int since_i_shot;
     enum event event;
+    struct hitbox *hbox;
 };
 
 enum bulletType

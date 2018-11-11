@@ -5,10 +5,34 @@
 #include "context.h"
 #include "update.h"
 
-static void go(struct tank *tank, int w, int h, int neg)
+static int checkVector2(struct vector2 *vect, float move_x, float move_y,
+        struct GameContext *GC)
 {
-    tank->position->x = tank->position->x + neg * (0.02 * tank->direction->x);
-    tank->position->y = tank->position->y - neg * (0.02 * tank->direction->y);
+    float new_x = vect->x + move_x;
+    int tmp_x = new_x;
+    float new_y = vect->y - move_y;
+    int tmp_y = new_y;
+    if (GC->map->table[tmp_y][tmp_x]->type == BLOCK)
+        return 0;
+    vect->x = new_x;
+    vect->y = new_y;
+    return 1;
+}
+
+static void move(struct tank *tank, struct GameContext *GC, int neg)
+{
+    int h = GC->map->height;
+    int w = GC->map->width;
+    float move_x = neg * (0.02 * tank->direction->x);
+    float move_y = neg * (0.02 * tank->direction->y);
+    if (!checkVector2(tank->hbox->v1, move_x, move_y, GC) ||
+        !checkVector2(tank->hbox->v2, move_x, move_y, GC) ||
+        !checkVector2(tank->hbox->v3, move_x, move_y, GC) ||
+        !checkVector2(tank->hbox->v4, move_x, move_y, GC))
+        return;
+    tank->position->x = tank->position->x + move_x;
+    tank->position->y = tank->position->y - move_y;
+
     float x = tank->position->x;
     float y = tank->position->y;
     if (x > w)
@@ -74,8 +98,6 @@ void update_input(struct GameContext *GC)
 {
     struct tank *p1 = GC->player1;
     struct tank *p2 = GC->player2;
-    int h = GC->map->width;
-    int w = GC->map->height;
     shot(GC, p1);
     shot(GC, p2);
     switch(p1->event)
@@ -87,10 +109,10 @@ void update_input(struct GameContext *GC)
             rotate(p1, -1);
             break;
         case FORWARD:
-            go(p1, w, h, 1);
+            move(p1, GC, 1);
             break;
         case BACK:
-            go(p1, w, h, -1);
+            move(p1, GC, -1);
             break;
         case NOTHING:
         default:
@@ -105,10 +127,10 @@ void update_input(struct GameContext *GC)
             rotate(p2, -1);
             break;
         case FORWARD:
-            go(p2, w, h, 1);
+            move(p2, GC, 1);
             break;
         case BACK:
-            go(p2, w, h, -1);
+            move(p2, GC, -1);
             break;
         case NOTHING:
         default:
