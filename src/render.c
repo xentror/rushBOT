@@ -132,3 +132,12 @@ void render_bullets(struct GameContext *GC, SDL_Renderer *renderer)
     }
     SDL_DestroyTexture(bullet_texture);
 }
+
+void print_winner(SDL_Renderer *renderer, char *path)
+{
+    SDL_Texture *player = IMG_LoadTexture(renderer, path);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, player, NULL, NULL);
+    SDL_RenderPresent(renderer);
+    SDL_DestroyTexture(player);
+}

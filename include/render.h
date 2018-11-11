@@ -15,5 +15,6 @@ SDL_Window *window_init(void);
 void render_map(struct map *map, SDL_Renderer *renderer);
 void render_tanks(struct GameContext *GC, SDL_Renderer *renderer);
 void render_bullets(struct GameContext *GC, SDL_Renderer *renderer);
+void print_winner(SDL_Renderer *renderer, char *path);
 
 #endif /* !RENDER_H */
