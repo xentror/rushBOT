@@ -25,39 +25,50 @@ int in_the_lava(struct map *M, struct vector2 *position)
 static void rebound_bullet(struct bullet *B)
 {
     double angle = atan2(B->direction->x, B->direction->y);
+    angle = angle * (180 / M_PI);
+    printf("angle : %f\n", angle);
+    float x = B->position->x - floor(B->position->x);
+    float y = B->position->y - floor(B->position->y);
+    printf("x: %f y: %f\n", x, y);
+    if (x > 0.5)
+        x = 1 - x;
+    if (y > 0.5)
+        y = 1 - y;
 
-    // hit by the left
-    if (B->position->x - floor(B->position->x) < 0.5
-            && angle <= M_PI / 2 && angle >= -M_PI / 2)
+    if (angle <= 0 && angle >= -90)
     {
-
-
+        if (x < y)
+            B->direction->y *= -1;
+        else
+            B->direction->x *= -1;
     }
 
-    // hit by the right
-    if (B->position->x - floor(B->position->x) >= 0.5
-            && ((angle >= M_PI / 2 && angle <= M_PI) ||
-                (angle >= -M_PI && angle <= -M_PI / 2)))
+    if (angle >= 0 && angle <= 90)
     {
-
-
+        // hit by the left
+        if (x < y)
+            B->direction->y *= -1;
+        else
+            B->direction->x *= -1;
     }
 
-    // hit by the top
-    if (B->position->y - floor(B->position->y) < 0.5
-            && angle <= 0 && angle >= -M_PI)
+    if (angle >= 90 && angle <= 180)
     {
-
-
+        if (x < y)
+            B->direction->y *= -1;
+        else
+            B->direction->x *= -1;
     }
 
-    // hit by the bottom
-    if (B->position->y - floor(B->position->y) < 0.5
-            && angle <= 0 && angle >= -M_PI)
+    if (angle <= -90 && angle >= -180)
     {
-
-
+        if (x < y)
+            B->direction->y *= -1;
+        else
+            B->direction->x *= -1;
     }
+    B->position->x += B->direction->x * B->speed * 10;
+    B->position->y -= B->direction->y * B->speed * 10;
 }
 
 static void destroy_bullet(struct GameContext *GC, int i)
@@ -113,32 +124,19 @@ static void update_bullets_position(struct GameContext *GC)
                 GC->bullets[i]->speed;
             touch_tank(GC->player1, GC->bullets[i]);
             touch_tank(GC->player2, GC->bullets[i]);
-            /*printf("Player1 health: %d\n", GC->player1->health);
-              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n",
-              GC->player1->hbox->v1->x, GC->player1->hbox->v1->y,
-              GC->player1->hbox->v2->x, GC->player1->hbox->v2->y);
-              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n",
-              GC->player1->hbox->v3->x, GC->player1->hbox->v3->y,
-              GC->player1->hbox->v4->x, GC->player1->hbox->v4->y);
-              printf("Player2 health: %d\n", GC->player2->health);
-              printf("    v1.x=%f v1.y=%f | v2.x=%f v2.y=%f\n",
-              GC->player2->hbox->v1->x, GC->player2->hbox->v1->y,
-              GC->player2->hbox->v2->x, GC->player2->hbox->v2->y);
-              printf("    v3.x=%f v3.y=%f | v4.x=%f v4.y=%f\n",
-              GC->player2->hbox->v3->x, GC->player2->hbox->v3->y,
-              GC->player2->hbox->v4->x, GC->player2->hbox->v4->y);*/
-
 
             for (int j = 0; j < GC->nb_enemies; j++)
                 touch_tank(GC->enemies[j], GC->bullets[i]);
         }
         else
         {
-            if (GC->bullets[i]->nb_rebounds >= 0)
+            if (GC->bullets[i]->nb_rebounds > 2)
+            {
+                printf("destroy bullet \n");
                 GC->bullets[i]->to_destroy = 1;
             else
             {
-                //rebound_bullet(GC->bullets[i]);
+                rebound_bullet(GC->bullets[i]);
                 GC->bullets[i]->nb_rebounds += 1;
             }
         }
