@@ -1,7 +1,15 @@
 #include <stdlib.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "map.h"
 #include "context.h"
+#include "update.h"
+
+extern SDL_Texture *full_heart_texture;
+extern SDL_Texture *empty_heart_texture;
+extern SDL_Texture *player_1_texture;
+extern SDL_Texture *player_2_texture;
 
 static void free_tanks(struct GameContext *GC)
 {
@@ -39,4 +47,9 @@ void free_game(struct GameContext *GC)
     free_bullets(GC);
     free_players(GC);
     free_map(GC->map);
+
+    SDL_DestroyTexture(full_heart_texture);
+    SDL_DestroyTexture(empty_heart_texture);
+    SDL_DestroyTexture(player_1_texture);
+    SDL_DestroyTexture(player_2_texture);
 }
