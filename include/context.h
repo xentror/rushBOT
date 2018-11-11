@@ -6,7 +6,6 @@
 
 #include "map.h"
 
-
 enum event
 {
     LEFT = 0,

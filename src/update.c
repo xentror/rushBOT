@@ -1,7 +1,8 @@
+#include <stdio.h>
+
 #include "update.h"
 #include "context.h"
 
-#include <stdio.h>
 static void update_AI_behaviour(struct GameContext *GC)
 {
     for (int i = 0; i < GC->nb_enemies; i++)
