@@ -44,13 +44,13 @@ void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos, int pl
     if (player == 1)
     {
         if (!player_1_texture)
-            player_1_texture = IMG_LoadTexture(renderer, "./textures/tank-b.png");
+            player_1_texture = IMG_LoadTexture(renderer, "./textures/tank-b_logo.png");
         SDL_RenderCopy(renderer, player_1_texture, NULL, &player_logo);
     }
     else
     {
         if (!player_2_texture)
-            player_2_texture = IMG_LoadTexture(renderer, "./textures/tank-g.png");
+            player_2_texture = IMG_LoadTexture(renderer, "./textures/tank-g_logo.png");
         SDL_RenderCopy(renderer, player_2_texture, NULL, &player_logo);
     }
 
