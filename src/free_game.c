@@ -47,7 +47,6 @@ void free_game(struct GameContext *GC)
     free_bullets(GC);
     free_players(GC);
     free_map(GC->map);
-    free(GC);
 
     SDL_DestroyTexture(full_heart_texture);
     SDL_DestroyTexture(empty_heart_texture);

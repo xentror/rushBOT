@@ -37,7 +37,7 @@ int main(void)
             path = "./textures/player2.png";
         print_winner(renderer, path);
         SDL_Delay(2000);
-        //free_game(&game);
+        free_game(&game);
     }
 
 
