@@ -40,9 +40,8 @@ int main(void)
             print_winner(renderer, path);
             SDL_Delay(2000);
         }
-        //free_game(&game);
+        free_game(&game);
     }
-
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

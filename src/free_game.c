@@ -13,6 +13,7 @@ extern SDL_Texture *player_2_texture;
 
 static void free_tanks(struct GameContext *GC)
 {
+
     for (int i = 0; i < GC->nb_enemies; i++)
     {
         free(GC->enemies[i]->position);
@@ -24,6 +25,8 @@ static void free_tanks(struct GameContext *GC)
 
 static void free_bullets(struct GameContext *GC)
 {
+    if (!GC)
+        return;
     for (int i = 0; i < GC->nb_bullets; i++)
     {
         free(GC->bullets[i]->position);
@@ -38,18 +41,18 @@ static void free_players(struct GameContext *GC)
     free(GC->player1->position);
     free(GC->player1->direction);
     free(GC->player1);
+    free(GC->player2->position);
+    free(GC->player2->direction);
     free(GC->player2);
 }
 
 void free_game(struct GameContext *GC)
 {
+    GC->nb_bullets = 0;
+    GC->nb_enemies = 0;
+
     free_tanks(GC);
-    free_bullets(GC);
+    free_bullets(NULL);
     free_players(GC);
     free_map(GC->map);
-
-    SDL_DestroyTexture(full_heart_texture);
-    SDL_DestroyTexture(empty_heart_texture);
-    SDL_DestroyTexture(player_1_texture);
-    SDL_DestroyTexture(player_2_texture);
 }

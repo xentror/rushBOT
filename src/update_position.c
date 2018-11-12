@@ -45,16 +45,13 @@ static void rebound_bullet(struct bullet *B)
         else
             B->direction->x *= -1;
     }
-
     if (angle >= 0 && angle <= 90)
     {
-        // hit by the left
         if (x < y)
             B->direction->y *= -1;
         else
             B->direction->x *= -1;
     }
-
     if (angle >= 90 && angle <= 180)
     {
         if (x < y)
@@ -62,7 +59,6 @@ static void rebound_bullet(struct bullet *B)
         else
             B->direction->x *= -1;
     }
-
     if (angle <= -90 && angle >= -180)
     {
         if (x < y)

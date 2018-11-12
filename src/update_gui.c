@@ -23,7 +23,48 @@ int get_life(struct tank *T)
         return 5;
 }
 
-void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos, int player)
+void iter_full(int nb_heart, SDL_Renderer *renderer, float *w_cur)
+{
+    int w;
+    int h;
+    SDL_GetRendererOutputSize(renderer, &w, &h);
+    for (int i = 0; i < nb_heart; i++)
+    {
+        if (!full_heart_texture)
+            full_heart_texture = IMG_LoadTexture(renderer,
+                    "./textures/full_heart.png");
+        SDL_Rect full_heart;
+        full_heart.x = *w_cur;
+        full_heart.y = h/50;
+        full_heart.w = w/30;
+        full_heart.h = h/30;
+        SDL_RenderCopy(renderer, full_heart_texture, NULL, &full_heart);
+        *w_cur += w/25;
+    }
+}
+
+void iter_empty(int nb_heart, SDL_Renderer *renderer, float *w_cur)
+{
+    int w;
+    int h;
+    SDL_GetRendererOutputSize(renderer, &w, &h);
+    for (int i = 0; i < 5 - nb_heart; i++)
+    {
+        if(!empty_heart_texture)
+            empty_heart_texture = IMG_LoadTexture(renderer,
+                    "./textures/empty_heart.png");
+        SDL_Rect empty_heart;
+        empty_heart.x = *w_cur;
+        empty_heart.y = h/50;
+        empty_heart.w = w/30;
+        empty_heart.h = h/30;
+        SDL_RenderCopy(renderer, empty_heart_texture, NULL, &empty_heart);
+        *w_cur += w/25;
+    }
+}
+
+void print_heart(SDL_Renderer *renderer, struct tank *T,
+        float width_pos, int player)
 {
     int nb_heart = get_life(T);
 
@@ -43,42 +84,19 @@ void print_heart(SDL_Renderer *renderer, struct tank *T, float width_pos, int pl
     if (player == 1)
     {
         if (!player_1_texture)
-            player_1_texture = IMG_LoadTexture(renderer, "./textures/tank-b_logo.png");
+            player_1_texture = IMG_LoadTexture(renderer,
+                    "./textures/tank-b_logo.png");
         SDL_RenderCopy(renderer, player_1_texture, NULL, &player_logo);
     }
     else
     {
         if (!player_2_texture)
-            player_2_texture = IMG_LoadTexture(renderer, "./textures/tank-g_logo.png");
+            player_2_texture = IMG_LoadTexture(renderer,
+                    "./textures/tank-g_logo.png");
         SDL_RenderCopy(renderer, player_2_texture, NULL, &player_logo);
     }
-
-
-    for (int i = 0; i < nb_heart; i++)
-    {
-        if (!full_heart_texture)
-            full_heart_texture = IMG_LoadTexture(renderer, "./textures/full_heart.png");
-        SDL_Rect full_heart;
-        full_heart.x = w_cur;
-        full_heart.y = h/50;
-        full_heart.w = w/30;
-        full_heart.h = h/30;
-        SDL_RenderCopy(renderer, full_heart_texture, NULL, &full_heart);
-        w_cur += w/25;
-    }
-
-    for (int i = 0; i < 5 - nb_heart; i++)
-    {
-        if(!empty_heart_texture)
-            empty_heart_texture = IMG_LoadTexture(renderer, "./textures/empty_heart.png");
-        SDL_Rect empty_heart;
-        empty_heart.x = w_cur;
-        empty_heart.y = h/50;
-        empty_heart.w = w/30;
-        empty_heart.h = h/30;
-        SDL_RenderCopy(renderer, empty_heart_texture, NULL, &empty_heart);
-        w_cur += w/25;
-    }
+    iter_full(nb_heart, renderer, &w_cur);
+    iter_empty(nb_heart, renderer, &w_cur);
 }
 
 void update_gui(SDL_Renderer *renderer, struct GameContext *GC)

@@ -28,27 +28,42 @@ static struct block *create_block(char c)
 static void fill_map(struct map *my_map, FILE *file)
 {
     char c;
+
+    size_t width = 0;
+    fread(&c, 1, sizeof(char), file);
+    while(c != '\n')
+    {
+        fread(&c, 1, sizeof(char), file);
+        width++;
+    }
+
+    size_t height = 1;
+    while(fread(&c, 1, sizeof(char), file) > 0)
+        height += (c == ('\n'));
+
+
+    my_map->table = malloc(sizeof(struct block **) * height);
+    for (size_t i = 0; i < height; i++)
+        my_map->table[i] = malloc(sizeof(struct block *) * width);
+
+
+    fseek(file, 0, SEEK_SET);
+
     size_t i = 0;
     size_t j = 0;
-
     while (fread(&c, 1, sizeof(char), file) > 0)
     {
         if (c == '\n')
         {
-            my_map->width = j;
             j = 0;
             i++;
-            my_map->table = realloc(my_map->table, sizeof(struct block **) * (i + 1));
-            my_map->table[i] = malloc(sizeof(struct block *));
         }
         else
-        {
-            my_map->table[i] = realloc(my_map->table[i], sizeof(struct block *) * (j + 1));
-            my_map->table[i][j] = create_block(c);
-            j++;
-        }
+            my_map->table[i][j++] = create_block(c);
     }
-    my_map->height = i;
+
+    my_map->width = width;
+    my_map->height = height;
 }
 
 struct map *create_map(char *path)
@@ -58,8 +73,9 @@ struct map *create_map(char *path)
         return NULL;
     struct map *my_map = malloc(sizeof(struct map));
 
-    my_map->table = malloc(sizeof(struct block **));
     fill_map(my_map, file);
+    fclose(file);
+
     return my_map;
 }
 

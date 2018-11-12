@@ -1,12 +1,73 @@
-=========================== README ===========================
+==================================== README ====================================
 
+Wecome to EPIC AGE OF DARK BATTLE OF TANK !!!!
 
+ !      /-----\============@
+ |_____/_______\_____
+/____________________\
+ \+__+__+__+__+__+__*/
 
+Our game is a top view versus game of tank where your objective is to be the 
+last survivor of the battlefield.
+You will face one human opponent and some virtual one through your games, be
+brave because you will need to be.
 
+In order to launch our game you must make it before like this:
+    make
+And you must launch it like this:
+    ./Epic-Age-Of-Dark-Battle-Of-Tank!
 
-    a   very ClEqn REDjkME yesss qallez c bon caaaaa
+    ========================================================================
 
+When you launch the game, you are on the main menu where you can choose beetween
+2 maps or to quit the game.
+When playing you can leave the game and start another one, on the same map or
+the other one.
+The main feature of the game is that each shot can rebounce on the wall three
+times, if doesn't hit a player or an AI.
+Each shot can cross the LAVA and reach across the map everyone.
+You can only move or rotate at one time for each
+player.
+You can move on the DIRTS and LAVAS but LAVA will hurt you very badly so your
+choice.
+The AI make a round in the map and shots every 200 frames, they can obviously
+kill if you are not good enough.
 
+You control your tank with 5 key: forward, backward, left, right, shot.
 
+Player1:
+    forward: w
+    backward: s
+    left: a
+    right: d
+    shot: <space>
 
-==============================================================
+Player2:
+    forward: up
+    backward: down
+    left: left
+    right: right
+    shot: NB_0
+
+    quit: <escape>
+
+    ========================================================================
+
+Features:
+    2 Players (differents textures)
+    2 Maps
+    Enemies tanks
+    Lava
+    Main menu
+    Menu buttons
+    Quit option
+    Teleportation
+    Winning screen/Game Over
+    Health bar
+    Shooting system
+    Bouncing bullets
+    Random spawn
+    Movement in aerian view (Rotation/Translation)
+    A lot of fun
+
+================================================================================

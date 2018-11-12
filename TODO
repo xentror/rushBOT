@@ -1,5 +1,51 @@
-- free game
-- pas spawn sur une roche ou de la lave
-- pas spawn sur un keume
-- aborted core dumped free invalid pointer a gerer, sortie esc clean
+==================================== TODO ======================================
 
+Core Features:  [V]
+    Player      [V]
+    Rooms/Maps  [V]
+    Ennemies    [V]
+    Danger      [V]
+    Game Over   [V]
+
+    =======================================================================
+
+Easy Features:              [/]
+    Sound/Music             [X]
+    Title screen            [V]
+    Score                   [X]
+    Timer                   [X]
+    Health                  [V]
+    More way                [X]
+    Invincibility frames    [X]
+    Hero evolution          [X]
+    Animated environment    [X]
+    Permanent leaderboard   [X]
+    Difficulty levels       [X]
+    Map powerups            [X]
+
+    =======================================================================
+
+Medium Features:        [/]
+    Humman dubbing      [X]
+    Scrolling           [X]
+    Cheat codes         [X]
+    More enemy          [V]
+    Dialogs             [X]
+    Gravity             [X]
+    Rotation            [V]
+    Jumps               [X]
+    Loot                [X]
+    Random loading      [V]
+
+    =======================================================================
+
+Hard Features:          [/]
+    OpenGL Shaders      [X]
+    Boss                [X]
+    Ressource system    [X]
+    Replay              [X]
+    Advanced NPC        [X]
+    Multiplayer         [V]
+    Boucing bullets     [V]
+
+================================================================================
