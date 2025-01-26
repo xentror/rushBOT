@@ -84,13 +84,22 @@ static struct bullet *create_bullet(struct tank *tank)
 
 void shot(struct GameContext *GC, struct tank *tank)
 {
-    if (tank->is_shoting)
-    {
-        GC->bullets = realloc(GC->bullets, sizeof(struct bullet *)
-                * GC->nb_bullets + 1);
-        GC->bullets[GC->nb_bullets++] = create_bullet(tank);
-        tank->is_shoting = 0;
+    // Tank has already shooted recently wait more
+    if (tank->since_i_shot && tank->since_i_shot < 50) {
+      tank->since_i_shot += 1;
+      return;
     }
+
+    // Tank is not shooting
+    if (!tank->is_shoting) {
+      return;
+    }
+
+    GC->bullets = realloc(GC->bullets, sizeof(struct bullet *)
+                          * GC->nb_bullets + 1);
+    GC->bullets[GC->nb_bullets++] = create_bullet(tank);
+    tank->is_shoting = 0;
+    tank->since_i_shot = 1;
 }
 
 void update_input(struct GameContext *GC)

@@ -1,3 +1,4 @@
+#include <SDL2/SDL_timer.h>
 #include <stdlib.h>
 #include <err.h>
 #include "update.h"
