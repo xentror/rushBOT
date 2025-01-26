@@ -57,7 +57,7 @@ void rotate(struct tank *tank, int neg)
     normalize(tank->direction);
     float x = tank->direction->x;
     float y = tank->direction->y;
-    double angle = neg * 2.0 * (M_PI / 180.0);
+    double angle = neg * 3.0 * (M_PI / 180.0);
     tank->direction->x = x * cos(angle) - y * sin(angle);
     tank->direction->y = x * sin(angle) + y * cos(angle);
     normalize(tank->direction);
@@ -72,8 +72,8 @@ static struct bullet *create_bullet(struct tank *tank)
     B->position->y = tank->position->y;
     B->direction->x = tank->direction->x;
     B->direction->y = tank->direction->y;
-    B->damage = 10;
-    B->speed = 0.05;
+    B->damage = 20;
+    B->speed = 0.2;
     B->type = ENORMOUS;
     B->nb_rebounds = 0;
     B->to_destroy = 0;
