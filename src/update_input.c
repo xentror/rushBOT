@@ -22,8 +22,8 @@ void move(struct tank *tank, struct GameContext *GC, int neg)
 {
     int h = GC->map->height;
     int w = GC->map->width;
-    float move_x = neg * (0.02 * tank->direction->x);
-    float move_y = neg * (0.02 * tank->direction->y);
+    float move_x = neg * (tank->speed * tank->direction->x);
+    float move_y = neg * (tank->speed * tank->direction->y);
     if (!checkVector2(tank->hbox->v1, move_x, move_y, GC) ||
         !checkVector2(tank->hbox->v2, move_x, move_y, GC) ||
         !checkVector2(tank->hbox->v3, move_x, move_y, GC) ||
@@ -57,7 +57,7 @@ void rotate(struct tank *tank, int neg)
     normalize(tank->direction);
     float x = tank->direction->x;
     float y = tank->direction->y;
-    double angle = neg * 1.0 * (M_PI / 180.0);
+    double angle = neg * 2.0 * (M_PI / 180.0);
     tank->direction->x = x * cos(angle) - y * sin(angle);
     tank->direction->y = x * sin(angle) + y * cos(angle);
     normalize(tank->direction);

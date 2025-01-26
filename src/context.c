@@ -54,7 +54,7 @@ static struct tank *initTank(struct GameContext game, int t_id)
     new->direction->x = 1;
     new->direction->y = 0;
     new->health = 100;
-    new->speed = 0;
+    new->speed = 0.1;
     new->event = NOTHING;
     new->is_shoting = 0;
     new->since_i_shot = 0;
