@@ -17,9 +17,9 @@ void get_input(struct GameContext *GC)
             case SDLK_LEFT: GC->player1->event = LEFT; return;
             case SDLK_RIGHT: GC->player1->event = RIGHT; return;
             case SDLK_KP_0: GC->player1->is_shoting = 1; return;
-            case SDLK_w: GC->player2->event = FORWARD; return;
+            case SDLK_z: GC->player2->event = FORWARD; return;
             case SDLK_s: GC->player2->event = BACK; return;
-            case SDLK_a: GC->player2->event = LEFT; return;
+            case SDLK_q: GC->player2->event = LEFT; return;
             case SDLK_d: GC->player2->event = RIGHT; return;
             case SDLK_SPACE: GC->player2->is_shoting = 1; return;
             case SDLK_ESCAPE: GC->isPlaying = 0;return;
@@ -35,9 +35,9 @@ void get_input(struct GameContext *GC)
             case SDLK_LEFT: GC->player1->event = NOTHING; return;
             case SDLK_RIGHT: GC->player1->event = NOTHING; return;
             case SDLK_KP_0: GC->player1->is_shoting = 0; return;
-            case SDLK_w: GC->player2->event = NOTHING; return;
+            case SDLK_z: GC->player2->event = NOTHING; return;
             case SDLK_s: GC->player2->event = NOTHING; return;
-            case SDLK_a: GC->player2->event = NOTHING; return;
+            case SDLK_q: GC->player2->event = NOTHING; return;
             case SDLK_d: GC->player2->event = NOTHING; return;
             case SDLK_SPACE: GC->player2->is_shoting = 0; return;
             case SDLK_ESCAPE: GC->isPlaying = 0;return;
