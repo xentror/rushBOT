@@ -18,8 +18,8 @@ static struct vector2 *spawnTank(struct GameContext game)
         pos_y = rand() % h;
     }
     struct vector2 *new = malloc(sizeof(struct vector2));
-    new->y = pos_y + 0.5;
-    new->x = pos_x + 0.5;
+    new->y = pos_y;
+    new->x = pos_x;
     return new;
 }
 
@@ -27,20 +27,20 @@ static struct hitbox *initHitbox(struct vector2 *center)
 {
     struct hitbox *hbox = malloc(sizeof(struct hitbox));
     hbox->v1 = malloc(sizeof(struct vector2));
-    hbox->v1->x = center->x - 0.4;
-    hbox->v1->y = center->y - 0.4;
+    hbox->v1->x = center->x + 0.1;
+    hbox->v1->y = center->y + 0.1;
 
     hbox->v2 = malloc(sizeof(struct vector2));
-    hbox->v2->x = center->x - 0.4;
-    hbox->v2->y = center->y + 0.4;
+    hbox->v2->x = center->x + 0.1;
+    hbox->v2->y = center->y + 0.9;
 
     hbox->v3 = malloc(sizeof(struct vector2));
-    hbox->v3->x = center->x + 0.4;
-    hbox->v3->y = center->y - 0.4;
+    hbox->v3->x = center->x + 0.9;
+    hbox->v3->y = center->y + 0.1;
 
     hbox->v4 = malloc(sizeof(struct vector2));
-    hbox->v4->x = center->x + 0.4;
-    hbox->v4->y = center->y + 0.4;
+    hbox->v4->x = center->x + 0.9;
+    hbox->v4->y = center->y + 0.1;
 
     return hbox;
 }
@@ -63,8 +63,8 @@ static struct tank *initTank(struct GameContext game, int t_id)
 }
 
 void gameInit(struct GameContext *game, char *arg)
-{
-    game->map = create_map(arg);
+ {
+    game->map = generate_map();
     game->player1 = initTank(*game, 0);
     game->player2 = initTank(*game, 1);
     struct tank **enemies = malloc(sizeof(struct tank*) * 2);

@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "map.h"
+#include "perlin_noise.h"
 
 static struct block *create_block(char c)
 {
@@ -78,6 +79,43 @@ struct map *create_map(char *path)
 
     return my_map;
 }
+
+char map_noise_to_char(float noise) {
+  if (noise < 0.7)
+    return 'g';
+  else if (noise >= 0.7 && noise <= 0.85)
+    return 'l';
+  else
+    return 'b';
+}
+
+struct map *generate_map(void) {
+  struct map *my_map = malloc(sizeof(struct map));
+
+  int height = 28, width = 28;
+  my_map->height = height;
+  my_map-> width = width;
+
+  // Allocation of the matrix of blocks
+  my_map->table = malloc(sizeof(struct block*) * height);
+  for (int i = 0; i < height; i++) {
+    my_map->table[i] = malloc(sizeof(struct block*) * width);
+
+    for (int j = 0; j < width; j++) {
+      float noise = perlin2d(i, j, 0.4, 1);
+      char c = map_noise_to_char(noise);
+
+      // Force the limit of the map to be a bloc
+      if (i == 0 || j == 0 || j + 1 == width || i + 1 == height)
+        c = 'b';
+
+      my_map->table[i][j] = create_block(c);
+    }
+  }
+
+  return my_map;
+}
+
 
 void free_map(struct map *my_map)
 {

@@ -23,6 +23,7 @@ struct block
 };
 
 struct map *create_map(char *path);
+struct map *generate_map(void);
 void free_map(struct map *my_map);
 
 #endif /* !MAP_H */
